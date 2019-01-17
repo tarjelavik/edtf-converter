@@ -1,0 +1,33 @@
+{
+  "name": "edtf-parser",
+  "version": "1.0.0",
+  "description": "Parses human language input to EDTF compliant date strings.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nomistrebla/edtf-parser.git"
+  },
+  "keywords": [
+    "parser",
+    "date",
+    "edtf",
+    "javascript",
+    "npm",
+    "node"
+  ],
+  "author": {
+    "name": "Simon Mathewson",
+    "email": "info@simonmathewson.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nomistrebla/edtf-parser/issues"
+  },
+  "homepage": "https://github.com/nomistrebla/edtf-parser#readme",
+  "devDependencies": {
+    "pegjs": "^0.10.0"
+  }
+}
