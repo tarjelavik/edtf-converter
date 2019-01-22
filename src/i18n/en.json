@@ -1,0 +1,20 @@
+{
+  "$schema": "./schema.json",
+  "locale": "en",
+  "dateFormats": ["DD/MM/YYYY", "MM/YYYY", "YYYY", "MMM Do YYYY", "MMMM Do YYYY", "MMM YYYY", "MMMM YYYY"],
+  "keywords": {
+    "approximate": ["c.", "ca.", "ca", "circa", "approx", "near", "around", "about"],
+    "uncertain": ["maybe", "possibly"],
+    "interval": {
+      "delimiters": ["to", "until"],
+      "startOpen": ["before", "until"],
+      "endOpen": ["after", "from", "since", "as of"]
+    }
+  },
+  "seasons": [
+    ["spring"],
+    ["summer"],
+    ["autumn", "fall"],
+    ["winter"]
+  ]
+}
