@@ -2,9 +2,9 @@
 
 Parses human language input to EDTF compliant date strings.
 
-# Compliance
+# Compatibility
 
-Select features of levels 0 and 1 are supported.
+edtf-parser implements select features of EDTF levels 0 and 1 as specified by ISO 8601-2 with some modifications, making it compatible to [EDTF.js](https://github.com/inukshuk/edtf.js).
 
 ## Level 0
 
@@ -63,8 +63,8 @@ Select features of levels 0 and 1 are supported.
 
 | Input (example)                  | Output          |
 |----------------------------------|-----------------|
-| since 1970                       | `1970..`        |
-| until 1970                       | `..1970`        |
+| since 1970                       | `[1970..]`        |
+| until 1970                       | `[..1970]`        |
 | from 1950 until around June 1970 | `1950/1970-06~` |
 
 ### Negative Calendar Year
