@@ -1,6 +1,6 @@
 # edtf-parser
 
-Parses human language input to EDTF compliant date strings.
+Parses natural language to EDTF compliant date strings.
 
 # Compatibility
 
