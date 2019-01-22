@@ -27,7 +27,6 @@
     "url": "https://github.com/nomistrebla/edtf-parser/issues"
   },
   "homepage": "https://github.com/nomistrebla/edtf-parser#readme",
-  "devDependencies": {
-    "pegjs": "^0.10.0"
-  }
+  "devDependencies": {},
+  "dependencies": {}
 }
