@@ -27,6 +27,11 @@
     "url": "https://github.com/nomistrebla/edtf-parser/issues"
   },
   "homepage": "https://github.com/nomistrebla/edtf-parser#readme",
-  "devDependencies": {},
-  "dependencies": {}
+  "devDependencies": {
+    "eslint": "^5.12.1",
+    "eslint-config-google": "^0.11.0"
+  },
+  "dependencies": {
+    "moment": "^2.24.0"
+  }
 }
