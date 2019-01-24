@@ -66,5 +66,6 @@
       "maxItems": 4
     }
   },
+  "required": ["locale", "dateFormats"],
   "additionalProperties": false
 }
