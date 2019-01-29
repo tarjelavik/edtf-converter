@@ -3,16 +3,33 @@
 const moment = require('moment');
 
 /**
+ * Enum for date precision.
+ * @readonly
+ * @enum {number}
+ */
+const datePrecision = {
+  YEAR: 0,
+  MONTH: 1,
+  DAY: 2
+};
+
+/**
+ * @typedef {Object} DateInfo
+ * @property {moment.Moment} date Moment.js date
+ * @property {string} format The associated date format
+ */
+
+/**
  * Get a Moment.js date from a string that is valid for at least one of the
  * given formats.
  * @param {string} dateString The string to be parsed.
  * @param {string[]} formats The formats to be validated against.
- * @return {moment.Moment} The resulting Moment.js date.
+ * @return {DateInfo} The result containing the date date and detected format.
  */
 function getValidDateFromString(dateString, formats) {
   let date;
-  for (const format of formats) {
-    console.log(`Validating ${dateString} against ${format}`);
+  let format;
+  for (format of formats) {
     const momentDate = moment(dateString, format, true);
     if (momentDate.isValid()) {
       date = momentDate;
@@ -20,9 +37,14 @@ function getValidDateFromString(dateString, formats) {
     }
   }
   if (!date) {
-    throw new Error(`Date input "${dateString}" matches none of the available formats.`);
+    throw new Error(
+        `Date input "${dateString}" matches none of the available formats.`
+    );
   }
-  return date;
+  return {
+    date,
+    format,
+  };
 }
 
 module.exports = (input, options) => {
@@ -156,12 +178,44 @@ module.exports = (input, options) => {
 
   // Try parsing the dates using Moment.js
 
-  let startDate = getValidDateFromString(startDateText, localeDateFormats);
-  let endDate = endDateText
+  const startDateInfo = getValidDateFromString(
+      startDateText,
+      localeDateFormats
+  );
+  const endDateInfo = endDateText
       ? getValidDateFromString(endDateText, localeDateFormats)
-      : null;
+      : {};
+  const startDate = startDateInfo.date;
+  const startFormat = startDateInfo.format;
+  let startPrecision;
+  const endDate = endDateInfo.date;
+  const endFormat = endDateInfo.format;
+  let endPrecision;
 
-  console.log(startDate.toDate(), endDate.toDate());
+  if (startFormat.includes('D')) {
+    startPrecision = datePrecision.DAY;
+  } else if (startFormat.includes('M')) {
+    startPrecision = datePrecision.MONTH;
+  } else {
+    startPrecision = datePrecision.YEAR;
+  }
+  if (endFormat) {
+    if (endFormat.includes('D')) {
+      endPrecision = datePrecision.DAY;
+    } else if (endFormat.includes('M')) {
+      endPrecision = datePrecision.MONTH;
+    } else {
+      endPrecision = datePrecision.YEAR;
+    }
+  }
 
-  return input;
+  // Build EDTF string
+
+  const edtfFormats = ['YYYY', 'YYYY-MM', 'YYYY-MM-DD'];
+  let edtfString = startDate.format(edtfFormats[startPrecision]);
+  if (endDate) {
+    edtfString += `/${endDate.format(edtfFormats[endPrecision])}`;
+  }
+
+  return edtfString;
 };
