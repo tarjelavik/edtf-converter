@@ -2,7 +2,8 @@
   "name": "edtf-parser",
   "version": "1.0.0",
   "description": "Parses natural language to EDTF compliant date strings.",
-  "main": "src/parser.js",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
   "scripts": {
     "test": "mocha"
   },
