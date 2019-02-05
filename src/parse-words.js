@@ -24,13 +24,16 @@ const findAndRemoveKeywords = require('./find-and-remove-keywords');
 function parseWords(words, dateFormats, keywords) {
   // Find custom keywords and remove them from words array
   const customKeywordModifiers = [];
-  Object.keys(keywords.custom).forEach((keyword) => {
-    const wordsWithoutCustomKeywords = findAndRemoveKeywords(words, [keyword]);
-    if (wordsWithoutCustomKeywords) {
-      words = wordsWithoutCustomKeywords;
-      customKeywordModifiers.push(keywords.custom[keyword]);
-    }
-  });
+  if (keywords.custom) {
+    Object.keys(keywords.custom).forEach((keyword) => {
+      const wordsWithoutCustomKeywords
+          = findAndRemoveKeywords(words, [keyword]);
+      if (wordsWithoutCustomKeywords) {
+        words = wordsWithoutCustomKeywords;
+        customKeywordModifiers.push(keywords.custom[keyword]);
+      }
+    });
+  }
 
   // Find keywords and remove them from words array
   let isApproximate = false;
