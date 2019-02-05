@@ -3,8 +3,8 @@
   "locale": "en",
   "dateFormats": ["DD/MM/YYYY", "MM/YYYY", "YYYY", "MMM Do YYYY", "MMMM D YYYY", "MMM D YYYY", "MMMM Do YYYY", "MMM YYYY", "MMMM YYYY"],
   "keywords": {
-    "approximate": ["c.", "ca.", "ca", "circa", "approx", "near", "around", "about"],
-    "uncertain": ["maybe", "possibly"],
+    "approximate": ["c.", "ca.", "ca", "circa", "approx", "near", "around", "about", "by"],
+    "uncertain": ["maybe", "possibly", "?"],
     "interval": {
       "delimiters": ["to", "until"],
       "openStart": ["before", "until"],

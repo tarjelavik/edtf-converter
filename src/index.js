@@ -2,11 +2,19 @@ const get = require('lodash/get');
 const parseWords = require('./parse-words');
 
 /**
+ * @callback dateModifier
+ * @param {string} original Original EDTF date
+ * @returns {string} Modified EDTF date
+ */
+
+/**
  * Parse natural language to an EDTF compliant date string.
  * @param {string} input The string to be parsed.
  * @param {Object} options Additional options for the parser.
  * @param {string} options.locale The code for the locale to be used for
  * parsing.
+ * @param {Object.<string, dateModifier>} options.customKeywords Custom
+ * keywords and their modifier functions
  * @return {string} The resulting EDTF string.
  */
 function parse(input, options) {
@@ -38,12 +46,18 @@ function parse(input, options) {
   const localeOpenEndKeywords =
       get(localeData, 'keywords.interval.openEnd') || [];
 
+  // // Remove commas
+  input = input.replace(/,/g, '');
+
   // Split input into array of words
   const words = input.split(/\s/);
 
   // Try to find delimiter and separate start and end of input
   const delimiters = ['-', '–', ...localeDelimiters];
-  const delimiterIndex = words.findIndex((word) => delimiters.includes(word));
+  let delimiterIndex = words
+      .slice(1, -1) // Don't look for delimiter in first or last word
+      .findIndex((word) => delimiters.includes(word));
+  delimiterIndex = delimiterIndex === -1 ? -1 : delimiterIndex + 1;
   let startWords;
   let endWords;
   if (delimiterIndex > -1) {
@@ -63,6 +77,7 @@ function parse(input, options) {
         uncertain: localeUncertainKeywords,
         openStart: localeOpenStartKeywords,
         openEnd: localeOpenEndKeywords,
+        custom: options.customKeywords,
       }
   );
   if (endWords.length) {
@@ -74,6 +89,7 @@ function parse(input, options) {
           uncertain: localeUncertainKeywords,
           openStart: localeOpenStartKeywords,
           openEnd: localeOpenEndKeywords,
+          custom: options.customKeywords,
         }
     );
     edtf += `/${endEdtf}`;
