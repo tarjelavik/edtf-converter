@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nomistrebla/edtf-parser.git"
+    "url": "git+https://github.com/simon-mathewson/edtf-parser.git"
   },
   "keywords": [
     "parser",
@@ -24,9 +24,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nomistrebla/edtf-parser/issues"
+    "url": "https://github.com/simon-mathewson/edtf-parser/issues"
   },
-  "homepage": "https://github.com/nomistrebla/edtf-parser#readme",
+  "homepage": "https://github.com/simon-mathewson/edtf-parser#readme",
   "devDependencies": {
     "eslint": "^5.12.1",
     "eslint-config-google": "^0.11.0",
