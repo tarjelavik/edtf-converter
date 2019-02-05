@@ -1,6 +1,7 @@
 'use strict';
 
 const moment = require('moment');
+const get = require('lodash/get');
 
 /**
  * Enum for date precision.
@@ -10,7 +11,7 @@ const moment = require('moment');
 const datePrecision = {
   YEAR: 0,
   MONTH: 1,
-  DAY: 2
+  DAY: 2,
 };
 
 /**
@@ -49,7 +50,6 @@ function getValidDateFromString(dateString, formats) {
 
 module.exports = (input, options) => {
   // Initialize options
-
   options = options || {};
   const locale = options.locale || 'en';
   let localeData;
@@ -60,53 +60,27 @@ module.exports = (input, options) => {
   }
 
   // Initialize locale variables
-
   const localeDateFormats = localeData.dateFormats;
   if (!localeDateFormats || !localeDateFormats.length) {
     throw new Error(
         `At least one date format has to be provided in locale "${locale}".`
     );
   }
-
-  const localeApproximateKeywords = (
-    localeData.keywords &&
-    localeData.keywords.approximate &&
-    localeData.keywords.approximate.length
-  ) ? localeData.keywords.approximate : [];
-
-  const localeUncertainKeywords = (
-    localeData.keywords &&
-    localeData.keywords.unceratin &&
-    localeData.keywords.unceratin.length
-  ) ? localeData.keywords.unceratin : [];
-
-  const localeDelimiters = (
-    localeData.keywords &&
-    localeData.keywords.interval &&
-    localeData.keywords.interval.delimiters &&
-    localeData.keywords.interval.delimiters.length
-  ) ? localeData.keywords.interval.delimiters : [];
-
-  const localeOpenStartKeywords = (
-    localeData.keywords &&
-    localeData.keywords.interval &&
-    localeData.keywords.interval.openStart &&
-    localeData.keywords.interval.openStart.length
-  ) ? localeData.keywords.interval.openStart : [];
-
-  const localeOpenEndKeywords = (
-    localeData.keywords &&
-    localeData.keywords.interval &&
-    localeData.keywords.interval.openEnd &&
-    localeData.keywords.interval.openEnd.length
-  ) ? localeData.keywords.interval.openEnd : [];
+  const localeApproximateKeywords =
+      get(localeData, 'keywords.approximate') || [];
+  const localeUncertainKeywords =
+      get(localeData, 'keywords.uncertain') || [];
+  const localeDelimiters =
+      get(localeData, 'keywords.interval.delimiters') || [];
+  const localeOpenStartKeywords =
+      get(localeData, 'keywords.interval.openStart') || [];
+  const localeOpenEndKeywords =
+      get(localeData, 'keywords.interval.openEnd') || [];
 
   // Split input into array of words
-
   const words = input.split(/\s/);
 
   // Try to find delimiter and separate start and end of input
-
   const delimiters = ['-', '–', ...localeDelimiters];
   const delimiterIndex = words.findIndex((word) => delimiters.includes(word));
   let startWords;
@@ -120,7 +94,6 @@ module.exports = (input, options) => {
   }
 
   // Try to find keywords
-
   let startIsApproximate = false;
   let endIsApproximate = false;
   let startIsUncertain = false;
@@ -160,7 +133,6 @@ module.exports = (input, options) => {
   }
 
   // Determine start and end dates
-
   const allLocaleKeywords = [
     ...localeApproximateKeywords,
     ...localeUncertainKeywords,
@@ -177,7 +149,6 @@ module.exports = (input, options) => {
       .join(' ');
 
   // Try parsing the dates using Moment.js
-
   const startDateInfo = getValidDateFromString(
       startDateText,
       localeDateFormats
@@ -210,7 +181,6 @@ module.exports = (input, options) => {
   }
 
   // Build EDTF string
-
   const edtfFormats = ['YYYY', 'YYYY-MM', 'YYYY-MM-DD'];
   let edtfString = startDate.format(edtfFormats[startPrecision]);
   if (endDate) {
