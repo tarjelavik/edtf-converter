@@ -2,9 +2,11 @@
   "name": "edtf-parser",
   "version": "1.0.0",
   "description": "Parses natural language to EDTF compliant date strings.",
-  "main": "./src/index.js",
+  "main": "./dist/edtf-parser.min.js",
   "types": "./src/index.d.ts",
   "scripts": {
+    "build": "webpack",
+    "dev": "webpack --watch --mode development",
     "test": "mocha"
   },
   "repository": {
@@ -29,9 +31,14 @@
   },
   "homepage": "https://github.com/simon-mathewson/edtf-parser#readme",
   "devDependencies": {
+    "clean-webpack-plugin": "^1.0.1",
     "eslint": "^5.12.1",
     "eslint-config-google": "^0.11.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "moment-locales-webpack-plugin": "^1.0.7",
+    "webpack": "^4.29.1",
+    "webpack-bundle-analyzer": "^3.0.3",
+    "webpack-cli": "^3.2.3"
   },
   "dependencies": {
     "escape-string-regexp": "^1.0.5",
