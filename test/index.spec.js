@@ -1,4 +1,4 @@
-const parser = require('../src/index');
+const parser = require('../');
 const inputs = require('./inputs');
 const assert = require('assert');
 
