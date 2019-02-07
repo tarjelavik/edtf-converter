@@ -1,4 +1,4 @@
-const escapeStringRegexp = require('escape-string-regexp');
+import escapeStringRegexp from 'escape-string-regexp';
 
 /**
  * Checks if a list of words contains at least one of a list of keywords.
@@ -8,7 +8,7 @@ const escapeStringRegexp = require('escape-string-regexp');
  * @return {string[]|null} Modified words array or null if no keywords were
  * found
  */
-function findAndRemoveKeywords(words, keywords) {
+export default function findAndRemoveKeywords(words, keywords) {
   let wordsString = words.join(' ');
   let containsAtLeastOneKeyWord = false;
   keywords.forEach((keyword) => {
@@ -25,5 +25,3 @@ function findAndRemoveKeywords(words, keywords) {
   words = wordsString.split(' ');
   return containsAtLeastOneKeyWord ? words : null;
 }
-
-module.exports = findAndRemoveKeywords;

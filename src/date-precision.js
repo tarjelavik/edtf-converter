@@ -3,10 +3,8 @@
  * @readonly
  * @enum {number}
  */
-const datePrecision = {
+export const DatePrecision = {
   YEAR: 0,
   MONTH: 1,
   DAY: 2,
 };
-
-module.exports = datePrecision;

@@ -18,15 +18,37 @@ $ npm install edtf-parser
 
 ## Usage
 
+### Node.js (CommonJS)
+
 ```javascript
 const edtfParser = require('edtf-parser');
-edtfParser('1940 until about June 1942');
+edtfParser.parse('1940 until about June 1942');
 // -> '1940/1942-06~'
+```
+
+### Browser
+
+#### ES6
+
+```javascript
+import edtfParser from 'edtf-parser';
+edtfParser.parse('1940 until about June 1942');
+// -> '1940/1942-06~'
+```
+
+#### \<script>
+Download [edtf-parser.min.js](https://raw.githubusercontent.com/simon-mathewson/edtf-parser/master/dist/edtf-parser.min.js) separately without the rest of the package.
+```html
+<script src="edtf-parser.min.js"></script>
+<script>
+  edtfParser.parse('1940 until about June 1942');
+  // -> '1940/1942-06~'
+</script>
 ```
 
 ## API Reference
 
-### edtfParser(input, [options])
+### edtfParser.parse(input, [options])
 
 #### options
 

@@ -9,6 +9,7 @@ module.exports = {
     filename: 'edtf-parser.min.js',
     // https://github.com/webpack/webpack/issues/6522
     globalObject: 'typeof self !== \'undefined\' ? self : this',
+    library: 'edtfParser',
     libraryTarget: 'umd',
   },
   plugins: [

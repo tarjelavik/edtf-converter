@@ -1,5 +1,5 @@
-const get = require('lodash/get');
-const parseWords = require('./parse-words');
+import get from 'lodash/get';
+import parseWords from './parse-words';
 
 /**
  * @callback dateModifier
@@ -17,7 +17,7 @@ const parseWords = require('./parse-words');
  * keywords and their modifier functions
  * @return {string} The resulting EDTF string.
  */
-function parse(input, options) {
+export function parse(input, options) {
   // Initialize options
   options = options || {};
   const locale = options.locale || 'en';
@@ -97,5 +97,3 @@ function parse(input, options) {
 
   return edtf;
 };
-
-module.exports = parse;

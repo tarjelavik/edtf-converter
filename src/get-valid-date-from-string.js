@@ -1,4 +1,4 @@
-const moment = require('moment');
+import moment from 'moment';
 
 /**
  * @typedef {Object} DateInfo
@@ -13,7 +13,7 @@ const moment = require('moment');
  * @param {string[]} formats The formats to be validated against.
  * @return {DateInfo} The result containing the date date and detected format.
  */
-function getValidDateFromString(dateString, formats) {
+export default function getValidDateFromString(dateString, formats) {
   let date;
   let format;
   for (format of formats) {
@@ -33,5 +33,3 @@ function getValidDateFromString(dateString, formats) {
     format,
   };
 }
-
-module.exports = getValidDateFromString;

@@ -1,4 +1,4 @@
-declare function edtfParser(
+export declare function parse(
   input: string,
   options?: {
     locale?: 'en',
@@ -7,5 +7,3 @@ declare function edtfParser(
     }
   }
 ): string;
-
-export = edtfParser;

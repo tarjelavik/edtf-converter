@@ -1,6 +1,6 @@
-const getValidDateFromString = require('./get-valid-date-from-string');
-const datePrecision = require('./date-precision');
-const findAndRemoveKeywords = require('./find-and-remove-keywords');
+import getValidDateFromString from './get-valid-date-from-string';
+import findAndRemoveKeywords from './find-and-remove-keywords';
+import {DatePrecision} from './date-precision';
 
 /**
  * @callback dateModifier
@@ -21,7 +21,7 @@ const findAndRemoveKeywords = require('./find-and-remove-keywords');
  * @param {Object.<string, dateModifier>} keywords.custom
  * @return {string} The resulting EDTF date string.
  */
-function parseWords(words, dateFormats, keywords) {
+export default function parseWords(words, dateFormats, keywords) {
   // Find custom keywords and remove them from words array
   const customKeywordModifiers = [];
   if (keywords.custom) {
@@ -70,11 +70,11 @@ function parseWords(words, dateFormats, keywords) {
   const {date, format} = getValidDateFromString(dateText, dateFormats);
 
   // Determine precision of the date
-  let precision = datePrecision.YEAR;
+  let precision = DatePrecision.YEAR;
   if (format.includes('D')) {
-    precision = datePrecision.DAY;
+    precision = DatePrecision.DAY;
   } else if (format.includes('M')) {
-    precision = datePrecision.MONTH;
+    precision = DatePrecision.MONTH;
   }
 
   // Build EDTF string
@@ -100,5 +100,3 @@ function parseWords(words, dateFormats, keywords) {
 
   return edtfString;
 }
-
-module.exports = parseWords;
