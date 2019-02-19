@@ -6,10 +6,10 @@ const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 module.exports = {
   mode: 'production',
   output: {
-    filename: 'edtf-parser.min.js',
+    filename: 'edtf-converter.min.js',
     // https://github.com/webpack/webpack/issues/6522
     globalObject: 'typeof self !== \'undefined\' ? self : this',
-    library: 'edtfParser',
+    library: 'edtfConverter',
     libraryTarget: 'umd',
   },
   plugins: [

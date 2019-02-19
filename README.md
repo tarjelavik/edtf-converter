@@ -1,4 +1,4 @@
-# edtf-parser
+# edtf-converter
 
 Parses natural language to EDTF compliant date strings.
 
@@ -13,7 +13,7 @@ Parses natural language to EDTF compliant date strings.
 ## Installation
 
 ```
-$ npm install edtf-parser
+$ npm install edtf-converter
 ```
 
 ## Usage
@@ -21,8 +21,8 @@ $ npm install edtf-parser
 ### Node.js (CommonJS)
 
 ```javascript
-const edtfParser = require('edtf-parser');
-edtfParser.parse('1940 until about June 1942');
+const edtfConverter = require('edtf-converter');
+edtfConverter.parse('1940 until about June 1942');
 // -> '1940/1942-06~'
 ```
 
@@ -31,24 +31,24 @@ edtfParser.parse('1940 until about June 1942');
 #### ES6
 
 ```javascript
-import edtfParser from 'edtf-parser';
-edtfParser.parse('1940 until about June 1942');
+import edtfConverter from 'edtf-converter';
+edtfConverter.parse('1940 until about June 1942');
 // -> '1940/1942-06~'
 ```
 
 #### \<script>
-Download [edtf-parser.min.js](https://raw.githubusercontent.com/simon-mathewson/edtf-parser/master/dist/edtf-parser.min.js) separately without the rest of the package.
+Download [edtf-converter.min.js](https://raw.githubusercontent.com/simon-mathewson/edtf-converter/master/dist/edtf-converter.min.js) separately without the rest of the package.
 ```html
-<script src="edtf-parser.min.js"></script>
+<script src="edtf-converter.min.js"></script>
 <script>
-  edtfParser.parse('1940 until about June 1942');
+  edtfConverter.parse('1940 until about June 1942');
   // -> '1940/1942-06~'
 </script>
 ```
 
 ## API Reference
 
-### edtfParser.parse(input, [options])
+### edtfConverter.parse(input, [options])
 
 #### options
 
@@ -59,7 +59,7 @@ Download [edtf-parser.min.js](https://raw.githubusercontent.com/simon-mathewson/
 
 ## Compatibility
 
-edtf-parser implements select features of EDTF levels 0 and 1 as specified by ISO 8601-2 with some modifications, making it compatible to [EDTF.js](https://github.com/inukshuk/edtf.js).
+edtf-converter implements select features of EDTF levels 0 and 1 as specified by ISO 8601-2 with some modifications, making it compatible to [EDTF.js](https://github.com/inukshuk/edtf.js).
 
 ### Level 0
 

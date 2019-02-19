@@ -1,8 +1,8 @@
 {
-  "name": "edtf-parser",
+  "name": "edtf-converter",
   "version": "2.0.0",
   "description": "Parses natural language to EDTF compliant date strings.",
-  "main": "./dist/edtf-parser.min.js",
+  "main": "./dist/edtf-converter.min.js",
   "types": "./src/index.d.ts",
   "scripts": {
     "build": "webpack",
@@ -11,10 +11,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simon-mathewson/edtf-parser.git"
+    "url": "git+https://github.com/simon-mathewson/edtf-converter.git"
   },
   "keywords": [
     "parser",
+    "converter",
     "date",
     "edtf",
     "javascript",
@@ -27,9 +28,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/simon-mathewson/edtf-parser/issues"
+    "url": "https://github.com/simon-mathewson/edtf-converter/issues"
   },
-  "homepage": "https://github.com/simon-mathewson/edtf-parser#readme",
+  "homepage": "https://github.com/simon-mathewson/edtf-converter#readme",
   "devDependencies": {
     "clean-webpack-plugin": "^1.0.1",
     "eslint": "^5.12.1",
