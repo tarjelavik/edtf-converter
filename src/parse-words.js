@@ -1,27 +1,39 @@
+/// <reference path="./index.js" />
+
 import getValidDateFromString from './get-valid-date-from-string';
 import findAndRemoveKeywords from './find-and-remove-keywords';
-import {DatePrecision} from './date-precision';
+import get from 'lodash/get';
 
 /**
- * @callback dateModifier
- * @param {string} original Original EDTF date
- * @returns {string} Modified EDTF date
+ * Enum for date precision.
+ * @enum {number}
+ * @private
+ * @readonly
  */
+export const DatePrecision = {
+  YEAR: 0,
+  MONTH: 1,
+  DAY: 2,
+};
 
 /**
  * Parse an array of words to a valid EDTF date.
+ * @private
  * @param {string[]} words The words to be parsed.
- * @param {string[]} dateFormats The allowed date formats.
- * @param {Object} keywords The keywords used to determine if the date is
- * approximate, uncertain, etc.
- * @param {string[]} keywords.approximate
- * @param {string[]} keywords.uncertain
- * @param {string[]} keywords.openStart
- * @param {string[]} keywords.openEnd
- * @param {Object.<string, dateModifier>} keywords.custom
+ * @param {EdtfConverter.Options} options
+ * @param {Object} localeData An object containing the merged locale data.
  * @return {string} The resulting EDTF date string.
  */
-export default function parseWords(words, dateFormats, keywords) {
+export default function parseWords(words, options, localeData) {
+  // Collect keywords
+  const keywords = {
+    approximate: get(localeData, 'keywords.approximate') || [],
+    uncertain: get(localeData, 'keywords.uncertain') || [],
+    openStart: get(localeData, 'keywords.interval.openStart') || [],
+    openEnd: get(localeData, 'keywords.interval.openEnd') || [],
+    custom: options.customKeywords,
+  };
+
   // Find custom keywords and remove them from words array
   const customKeywordModifiers = [];
   if (keywords.custom) {
@@ -67,7 +79,8 @@ export default function parseWords(words, dateFormats, keywords) {
 
   // Try parsing the dates using Moment.js
   const dateText = words.join(' ');
-  const {date, format} = getValidDateFromString(dateText, dateFormats);
+  const {date, format} =
+      getValidDateFromString(dateText, localeData.dateFormats);
 
   // Determine precision of the date
   let precision = DatePrecision.YEAR;

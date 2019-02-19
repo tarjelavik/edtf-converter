@@ -21,8 +21,9 @@ $ npm install edtf-converter
 ### Node.js (CommonJS)
 
 ```javascript
-const edtfConverter = require('edtf-converter');
-edtfConverter.textToEdtf('1940 until about June 1942');
+const { Converter } = require('edtf-converter');
+const converter = new Converter();
+converter.textToEdtf('1940 until about June 1942');
 // -> '1940/1942-06~'
 ```
 
@@ -31,8 +32,9 @@ edtfConverter.textToEdtf('1940 until about June 1942');
 #### ES6
 
 ```javascript
-import edtfConverter from 'edtf-converter';
-edtfConverter.textToEdtf('1940 until about June 1942');
+import * as EdtfConverter from 'edtf-converter';
+const converter = new EdtfConverter.Converter();
+converter.textToEdtf('1940 until about June 1942');
 // -> '1940/1942-06~'
 ```
 
@@ -41,7 +43,8 @@ Download [edtf-converter.min.js](https://raw.githubusercontent.com/simon-mathews
 ```html
 <script src="edtf-converter.min.js"></script>
 <script>
-  edtfConverter.textToEdtf('1940 until about June 1942');
+  const converter = new edtfConverter.Converter();
+  converter.textToEdtf('1940 until about June 1942');
   // -> '1940/1942-06~'
 </script>
 ```
@@ -54,7 +57,7 @@ Download [edtf-converter.min.js](https://raw.githubusercontent.com/simon-mathews
 
 |Property|Type|Default|Description|
 |-|-|-|-|
-|locale|`string`|'en'|The locale determines which words can be used for parsing and how to parse date formats. Currently, only 'en' is supported.|
+|locales|`string[]`|`['en']`|The locales specify which words trigger a certain EDTF feature and how to parse date formats. The order of the locales determines their priority while parsing. *Currently, only 'en' is supported.*|
 |customKeywords|`{ [keyword: string]: (original) => string }`||Allows adding custom keywords with corresponding modifier functions. If a keyword is detected, it's modifier is called with the original EDTF string expecting it to return a modified EDTF string.|
 
 ## Compatibility

@@ -2,6 +2,7 @@ import moment from 'moment';
 
 /**
  * @typedef {Object} DateInfo
+ * @private
  * @property {moment.Moment} date Moment.js date
  * @property {string} format The associated date format
  */
@@ -9,6 +10,7 @@ import moment from 'moment';
 /**
  * Get a Moment.js date from a string that is valid for at least one of the
  * given formats.
+ * @private
  * @param {string} dateString The string to be parsed.
  * @param {string[]} formats The formats to be validated against.
  * @return {DateInfo} The result containing the date date and detected format.
