@@ -1,17 +1,19 @@
-const parser = require('../').parse;
+const edtfConverter = require('../');
 const inputs = require('./inputs');
 const assert = require('assert');
 
 describe('edtf-converter', () => {
-  Object.entries(inputs).forEach(([input, expectation]) => {
-    it(`should parse ${input} to ${inputs[input]}`, () => {
-      const result = parser(input, {
-        customKeywords: {
-          'until at least': (edtf) => `[..${edtf}..]`,
-          'as of': (edtf) => `[..${edtf}..]`,
-        },
+  describe('#textToEdtf', () => {
+    Object.entries(inputs).forEach(([input, expectation]) => {
+      it(`should convert ${input} to ${inputs[input]}`, () => {
+        const result = edtfConverter.textToEdtf(input, {
+          customKeywords: {
+            'until at least': (edtf) => `[..${edtf}..]`,
+            'as of': (edtf) => `[..${edtf}..]`,
+          },
+        });
+        assert.equal(result, expectation);
       });
-      assert.equal(result, expectation);
     });
   });
 });

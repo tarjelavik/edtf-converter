@@ -1,6 +1,6 @@
 # edtf-converter
 
-Parses natural language to EDTF compliant date strings.
+Allows converting between natural language, EDTF compliant date strings and JS/Moment dates.
 
 ### Contents
 
@@ -22,7 +22,7 @@ $ npm install edtf-converter
 
 ```javascript
 const edtfConverter = require('edtf-converter');
-edtfConverter.parse('1940 until about June 1942');
+edtfConverter.textToEdtf('1940 until about June 1942');
 // -> '1940/1942-06~'
 ```
 
@@ -32,7 +32,7 @@ edtfConverter.parse('1940 until about June 1942');
 
 ```javascript
 import edtfConverter from 'edtf-converter';
-edtfConverter.parse('1940 until about June 1942');
+edtfConverter.textToEdtf('1940 until about June 1942');
 // -> '1940/1942-06~'
 ```
 
@@ -41,14 +41,14 @@ Download [edtf-converter.min.js](https://raw.githubusercontent.com/simon-mathews
 ```html
 <script src="edtf-converter.min.js"></script>
 <script>
-  edtfConverter.parse('1940 until about June 1942');
+  edtfConverter.textToEdtf('1940 until about June 1942');
   // -> '1940/1942-06~'
 </script>
 ```
 
 ## API Reference
 
-### edtfConverter.parse(input, [options])
+### edtfConverter.textToEdtf(input, [options])
 
 #### options
 

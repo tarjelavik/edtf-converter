@@ -8,8 +8,8 @@ import parseWords from './parse-words';
  */
 
 /**
- * Parse natural language to an EDTF compliant date string.
- * @param {string} input The string to be parsed.
+ * Converts natural language to an EDTF compliant date string.
+ * @param {string} input The string to be converted.
  * @param {Object} options Additional options for the parser.
  * @param {string} options.locale The code for the locale to be used for
  * parsing.
@@ -17,7 +17,7 @@ import parseWords from './parse-words';
  * keywords and their modifier functions
  * @return {string} The resulting EDTF string.
  */
-export function parse(input, options) {
+export function textToEdtf(input, options) {
   // Initialize options
   options = options || {};
   const locale = options.locale || 'en';

@@ -1,4 +1,4 @@
-export declare function parse(
+export declare function textToEdtf(
   input: string,
   options?: {
     locale?: 'en',
