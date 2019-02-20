@@ -1,15 +1,17 @@
-import escapeStringRegexp from 'escape-string-regexp';
+import * as escapeStringRegexp from 'escape-string-regexp';
 
 /**
  * Checks if a list of words contains at least one of a list of keywords.
  * Removes found keywords from words array.
- * @private
- * @param {string[]} words The words to be examined
- * @param {string[]} keywords The keywords to find and remove
- * @return {string[]|null} Modified words array or null if no keywords were
+ *
+ * @internal
+ * @param words The words to be examined
+ * @param keywords The keywords to find and remove
+ * @returns Modified words array or null if no keywords were
  * found
  */
-export default function findAndRemoveKeywords(words, keywords) {
+export default function
+    findAndRemoveKeywords(words: string[], keywords: string[]): string[] | null {
   let wordsString = words.join(' ');
   let containsAtLeastOneKeyWord = false;
   keywords.forEach((keyword) => {

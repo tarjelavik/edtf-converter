@@ -1,0 +1,14 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+    "variable-name": [true, "check-format", "allow-leading-underscore"],
+    "quotemark": [true, "single"],
+    "trailing-comma": [true, {"multiline": "always", "singleline": "never"}],
+    "max-line-length": [true, {"limit": 100, "ignore-pattern": "^import |^export {(.*?)}"}]
+  },
+  "rulesDirectory": []
+}

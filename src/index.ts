@@ -1,50 +1,33 @@
-import get from 'lodash/get';
-import merge from 'lodash/merge';
+import {get, merge} from 'lodash';
 import parseWords from './parse-words';
 
-/**
- * @namespace EdtfConverter
- */
-
-/**
- * @function Modifier Function to transform an EDTF string
- * @memberof EdtfConverter
- * @param {string} original Original EDTF date
- * @returns {string} Modified EDTF date
- */
-
-/**
- * @typedef {Object} Options Allow customizing the converters'
- * behaviour.
- * @memberof EdtfConverter
- * @property {string[]} locales The locales specify which words trigger a
- * certain EDTF feature and how to parse date formats. The order of the locales
- * determines their priority while parsing. *Currently, only 'en' is supported.*
- * @property {Object.<string, Modifier>} customKeywords
- * Allows adding custom keywords with corresponding modifier functions. If a
- * keyword is detected, it's modifier is called with the original EDTF string
- * expecting it to return a modified EDTF string.
- */
-
-/**
- * @type {EdtfConverter.Options}
- * @memberof EdtfConverter
- */
-const DEFAULT_OPTIONS = {
+const DEFAULT_OPTIONS: IOptions = {
   locales: ['en'],
 };
 
-/**
- * Class representing an EDTF converter.
- */
-export class Converter {
-  /**
-   * Create a new converter.
-   * @param {EdtfConverter.Options} options
+/** Allow customizing the converters' behaviour. */
+export interface IOptions {
+  /** The locales specify which words trigger a certain EDTF feature and how to parse date formats.
+   * The order of the locales determines their priority while parsing. *Currently, only 'en' is
+   * supported.
    */
-  constructor(options) {
+  locales?: string[];
+  /**
+   * Allows adding custom keywords with corresponding modifier functions. If a keyword is detected,
+   * it's modifier is called with the original EDTF string expecting it to return a modified EDTF
+   * string.
+   */
+  customKeywords?: {[keyword: string]: (edtf: string) => string};
+}
+
+export class Converter {
+  private localeData: any;
+  private _options: IOptions;
+
+  constructor(options: IOptions) {
     this.options = options || {};
-    const locales = this.options.locales.map((locale) => {
+    const localeNames = this.options.locales || [];
+    const locales = localeNames.map((locale) => {
       try {
         return require(`./i18n/${locale}.json`);
       } catch (error) {
@@ -63,13 +46,10 @@ export class Converter {
     return this._options;
   }
 
-
   /**
    * Converts natural language to an EDTF compliant date string.
-   * @param {string} input The natural language string to be converted.
-   * @return {string} The resulting EDTF string.
    */
-  textToEdtf(input) {
+  public textToEdtf(input: string): string {
     // Remove commas
     input = input.replace(/,/g, '');
 
@@ -84,8 +64,8 @@ export class Converter {
         .slice(1, -1) // Don't look for delimiter in first or last word
         .findIndex((word) => delimiters.includes(word));
     delimiterIndex = delimiterIndex === -1 ? -1 : delimiterIndex + 1;
-    let startWords;
-    let endWords;
+    let startWords: string[];
+    let endWords: string[];
     if (delimiterIndex > -1) {
       startWords = words.slice(0, delimiterIndex);
       endWords = words.slice(delimiterIndex + 1);
@@ -102,5 +82,5 @@ export class Converter {
     }
 
     return edtf;
-  };
-};
+  }
+}

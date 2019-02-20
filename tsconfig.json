@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "es5",
+    "lib": ["es6"],
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "types": ["node"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "declaration": true,
+    "stripInternal": true,
+    "declarationDir": "./dist/types/"
+  },
+  "include": [
+    "./src/"
+  ]
+}

@@ -1,9 +1,9 @@
 {
   "name": "edtf-converter",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Allows converting between natural language, EDTF compliant date strings and JS/Moment dates.",
   "main": "./dist/edtf-converter.min.js",
-  "types": "./src/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "scripts": {
     "build": "webpack",
     "dev": "webpack --watch --mode development",
@@ -32,11 +32,18 @@
   },
   "homepage": "https://github.com/simon-mathewson/edtf-converter#readme",
   "devDependencies": {
+    "@types/escape-string-regexp": "^1.0.0",
+    "@types/lodash": "^4.14.121",
+    "@types/mocha": "^5.2.6",
+    "@types/moment": "^2.13.0",
+    "@types/node": "^11.9.4",
     "clean-webpack-plugin": "^1.0.1",
-    "eslint": "^5.12.1",
     "eslint-config-google": "^0.11.0",
     "mocha": "^5.2.0",
     "moment-locales-webpack-plugin": "^1.0.7",
+    "ts-loader": "^5.3.3",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3",
     "webpack": "^4.29.1",
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-cli": "^3.2.3"

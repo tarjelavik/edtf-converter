@@ -1,48 +1,39 @@
-/// <reference path="./index.js" />
-
-import getValidDateFromString from './get-valid-date-from-string';
+import { get } from 'lodash';
 import findAndRemoveKeywords from './find-and-remove-keywords';
-import get from 'lodash/get';
+import getValidDateFromString from './get-valid-date-from-string';
+import { IOptions } from './index';
+
+/** @internal */
+enum DatePrecision {
+  YEAR,
+  MONTH,
+  DAY,
+}
 
 /**
- * Enum for date precision.
- * @enum {number}
- * @private
- * @readonly
+ * Parses an array of words to a valid EDTF date.
+ *
+ * @internal
  */
-export const DatePrecision = {
-  YEAR: 0,
-  MONTH: 1,
-  DAY: 2,
-};
-
-/**
- * Parse an array of words to a valid EDTF date.
- * @private
- * @param {string[]} words The words to be parsed.
- * @param {EdtfConverter.Options} options
- * @param {Object} localeData An object containing the merged locale data.
- * @return {string} The resulting EDTF date string.
- */
-export default function parseWords(words, options, localeData) {
+export default function parseWords(words: string[], options: IOptions, localeData: any): string {
   // Collect keywords
   const keywords = {
     approximate: get(localeData, 'keywords.approximate') || [],
-    uncertain: get(localeData, 'keywords.uncertain') || [],
-    openStart: get(localeData, 'keywords.interval.openStart') || [],
-    openEnd: get(localeData, 'keywords.interval.openEnd') || [],
     custom: options.customKeywords,
+    openEnd: get(localeData, 'keywords.interval.openEnd') || [],
+    openStart: get(localeData, 'keywords.interval.openStart') || [],
+    uncertain: get(localeData, 'keywords.uncertain') || [],
   };
 
   // Find custom keywords and remove them from words array
-  const customKeywordModifiers = [];
+  const customKeywordModifiers: Array<(edtf: string) => string> = [];
   if (keywords.custom) {
     Object.keys(keywords.custom).forEach((keyword) => {
       const wordsWithoutCustomKeywords
           = findAndRemoveKeywords(words, [keyword]);
       if (wordsWithoutCustomKeywords) {
         words = wordsWithoutCustomKeywords;
-        customKeywordModifiers.push(keywords.custom[keyword]);
+        customKeywordModifiers.push(keywords.custom![keyword]);
       }
     });
   }
