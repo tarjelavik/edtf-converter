@@ -1,14 +1,6 @@
-# edtf-converter
+# EDTF Converter
 
 Allows converting between natural language, EDTF compliant date strings and JS/Moment dates.
-
-### Contents
-
-1. [Installation](#installation)
-2. [Usage](#usage)
-3. [API Reference](#api-reference)
-4. [Compatibility](#compatibility)
-5. [License](#license)
 
 ## Installation
 
@@ -51,14 +43,7 @@ Download [edtf-converter.min.js](https://raw.githubusercontent.com/simon-mathews
 
 ## API Reference
 
-### edtfConverter.textToEdtf(input, [options])
-
-#### options
-
-|Property|Type|Default|Description|
-|-|-|-|-|
-|locales|`string[]`|`['en']`|The locales specify which words trigger a certain EDTF feature and how to parse date formats. The order of the locales determines their priority while parsing. *Currently, only 'en' is supported.*|
-|customKeywords|`{ [keyword: string]: (original) => string }`||Allows adding custom keywords with corresponding modifier functions. If a keyword is detected, it's modifier is called with the original EDTF string expecting it to return a modified EDTF string.|
+### [Open API eference](https://simon-mathewson.github.io/edtf-converter/modules/edtfconverter.html)
 
 ## Compatibility
 
