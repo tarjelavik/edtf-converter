@@ -43,7 +43,7 @@ Download [edtf-converter.min.js](https://raw.githubusercontent.com/simon-mathews
 
 ## API Reference
 
-### [Open API eference](https://simon-mathewson.github.io/edtf-converter/modules/edtfconverter.html)
+### [Open API Reference](https://simon-mathewson.github.io/edtf-converter/modules/edtfconverter.html)
 
 ## Compatibility
 
