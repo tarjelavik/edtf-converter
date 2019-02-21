@@ -1,6 +1,5 @@
 import * as moment from 'moment';
 
-/** @internal */
 interface IDateInfo {
   date: moment.Moment;
   format: string;
@@ -10,7 +9,6 @@ interface IDateInfo {
  * Get a Moment.js date from a string that is valid for at least one of the
  * given formats.
  *
- * @internal
  * @param dateString The string to be parsed.
  * @param formats The formats to be validated against.
  * @returns The result containing the date date and detected format.

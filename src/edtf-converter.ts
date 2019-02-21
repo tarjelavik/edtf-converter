@@ -1,3 +1,7 @@
+/**
+ * @module EdtfConverter
+ */
+
 import {get, merge} from 'lodash';
 import parseWords from './parse-words';
 
@@ -20,10 +24,12 @@ export interface IOptions {
   customKeywords?: {[keyword: string]: (edtf: string) => string};
 }
 
+/** Class representing a converter. */
 export class Converter {
   private localeData: any;
   private _options: IOptions;
 
+  /** Initialize the options for the converter. */
   constructor(options: IOptions) {
     this.options = options || {};
     const localeNames = this.options.locales || [];
@@ -37,12 +43,11 @@ export class Converter {
     this.localeData = merge({}, ...locales);
   }
 
-  /** @type {EdtfConverter.Options} */
-  set options(value) {
+  /** Get the current options or update them for all subsequent operations. */
+  set options(value: IOptions) {
     this._options = {...DEFAULT_OPTIONS, ...value};
   }
-  // eslint-disable-next-line require-jsdoc
-  get options() {
+  get options(): IOptions {
     return this._options;
   }
 

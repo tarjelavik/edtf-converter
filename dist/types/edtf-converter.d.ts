@@ -1,3 +1,6 @@
+/**
+ * @module EdtfConverter
+ */
 /** Allow customizing the converters' behaviour. */
 export interface IOptions {
     /** The locales specify which words trigger a certain EDTF feature and how to parse date formats.
@@ -14,12 +17,14 @@ export interface IOptions {
         [keyword: string]: (edtf: string) => string;
     };
 }
+/** Class representing a converter. */
 export declare class Converter {
     private localeData;
     private _options;
+    /** Initialize the options for the converter. */
     constructor(options: IOptions);
-    /** @type {EdtfConverter.Options} */
-    options: any;
+    /** Get the current options or update them for all subsequent operations. */
+    options: IOptions;
     /**
      * Converts natural language to an EDTF compliant date string.
      */

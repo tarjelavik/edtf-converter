@@ -1,9 +1,8 @@
 import { get } from 'lodash';
+import { IOptions } from './edtf-converter';
 import findAndRemoveKeywords from './find-and-remove-keywords';
 import getValidDateFromString from './get-valid-date-from-string';
-import { IOptions } from './index';
 
-/** @internal */
 enum DatePrecision {
   YEAR,
   MONTH,

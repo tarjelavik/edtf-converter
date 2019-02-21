@@ -4,7 +4,27 @@ const BundleAnalyzerPlugin
 const MomentLocalesPlugin = require('moment-locales-webpack-plugin');
 const exec = require('child_process').exec;
 
+class ExecPlugin {
+  constructor(command, hook) {
+    this.command = command;
+    this.hook = hook;
+  }
+
+  apply(compiler) {
+    compiler.hooks.afterEmit.tap(this.hook, () => {
+      exec(
+        this.command,
+        (err, stdout, stderr) => {
+          if (stdout) process.stdout.write(stdout);
+          if (stderr) process.stderr.write(stderr);
+        }
+      );
+    });
+  }
+}
+
 module.exports = {
+  entry: './src/edtf-converter.ts',
   mode: 'production',
   output: {
     filename: 'edtf-converter.min.js',
@@ -24,26 +44,19 @@ module.exports = {
   devtool: 'source-map',
   plugins: [
     new CleanWebpackPlugin(['dist']),
-    new BundleAnalyzerPlugin({
-      openAnalyzer: false,
-    }),
+    // new BundleAnalyzerPlugin({
+    //   openAnalyzer: false,
+    // }),
     // Prevent Moment.js from imorting all locales
     new MomentLocalesPlugin({
       localesToKeep: ['en'],
     }),
     // Clean unwanted declaration files after build
-    {
-      apply: (compiler) => {
-        compiler.hooks.afterEmit.tap('AfterEmitPlugin', (compilation) => {
-          exec(
-            `find ./dist/types/ -type f -not -name 'index.d.ts' -print0 | xargs -0 rm --`,
-            (err, stdout, stderr) => {
-              if (stdout) process.stdout.write(stdout);
-              if (stderr) process.stderr.write(stderr);
-            }
-          );
-        });
-      }
-    }
+    new ExecPlugin(
+      `find ./dist/types/ -type f -not -name 'edtf-converter.d.ts' -print0 | xargs -0 rm --`,
+      'AfterEmitPlugin'
+    ),
+    // Generate documentation
+    new ExecPlugin('npm run generate-docs', 'AfterEmitPlugin'),
   ],
 };

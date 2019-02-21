@@ -3,11 +3,12 @@
   "version": "2.1.0",
   "description": "Allows converting between natural language, EDTF compliant date strings and JS/Moment dates.",
   "main": "./dist/edtf-converter.min.js",
-  "types": "./dist/types/index.d.ts",
+  "types": "./dist/types/edtf-converter.d.ts",
   "scripts": {
     "build": "webpack",
     "dev": "webpack --watch --mode development",
-    "test": "mocha"
+    "test": "mocha",
+    "generate-docs": "typedoc dist/types"
   },
   "repository": {
     "type": "git",
@@ -43,6 +44,8 @@
     "moment-locales-webpack-plugin": "^1.0.7",
     "ts-loader": "^5.3.3",
     "tslint": "^5.12.1",
+    "typedoc": "^0.14.2",
+    "typedoc-plugin-external-module-name": "^2.0.0",
     "typescript": "^3.3.3",
     "webpack": "^4.29.1",
     "webpack-bundle-analyzer": "^3.0.3",
