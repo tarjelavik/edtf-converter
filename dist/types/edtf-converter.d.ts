@@ -41,18 +41,23 @@ export interface IDate {
 export declare class Converter {
     private localeData;
     private _options;
-    /** Initialize the options for the converter. */
-    constructor(options: IOptions);
     /** Get the current options or update them for all subsequent operations. */
     options: IOptions;
+    /** Initialize the options for the converter. */
+    constructor(options: IOptions);
     /**
      * Converts natural language to an EDTF compliant date string.
      */
     textToEdtf(input: string): string;
     /**
-     * Converts an EDTF date string to `min` and `max` Moment.js dates
+     * Converts an EDTF date string to `min` and `max` Moment.js dates (UTC)
      */
     edtfToDate(edtf: string): IDate;
-    /** Converts a single EDTF date section to a Moment.js date */
+    /** Checks whether a given EDTF string is valid
+     *  @throws {Error} Error thrown if invalid
+     *  @see {@link https://github.com/simon-mathewson/edtf-converter#compatibility | Compatibility}
+     */
+    validateEdtf(edtf: string): void;
+    /** Converts a single EDTF date section to a Moment.js date (UTC) */
     private singleEdtfToDate;
 }
