@@ -74,7 +74,7 @@ export class Converter {
   }
 
   /** Initialize the options for the converter. */
-  constructor(options: IOptions) {
+  constructor(options?: IOptions) {
     this.options = options || {};
     const localeNames = this.options.locales || [];
     const locales = localeNames.map((locale) => {

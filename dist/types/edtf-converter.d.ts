@@ -44,7 +44,7 @@ export declare class Converter {
     /** Get the current options or update them for all subsequent operations. */
     options: IOptions;
     /** Initialize the options for the converter. */
-    constructor(options: IOptions);
+    constructor(options?: IOptions);
     /**
      * Converts natural language to an EDTF compliant date string.
      */
