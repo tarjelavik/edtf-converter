@@ -65,6 +65,14 @@ export class Converter {
   private localeData: any;
   private _options: IOptions;
 
+  /** Get the current options or update them for all subsequent operations. */
+  set options(value: IOptions) {
+    this._options = {...DEFAULT_OPTIONS, ...value};
+  }
+  get options(): IOptions {
+    return this._options;
+  }
+
   /** Initialize the options for the converter. */
   constructor(options: IOptions) {
     this.options = options || {};
@@ -77,14 +85,6 @@ export class Converter {
       }
     });
     this.localeData = merge({}, ...locales);
-  }
-
-  /** Get the current options or update them for all subsequent operations. */
-  set options(value: IOptions) {
-    this._options = {...DEFAULT_OPTIONS, ...value};
-  }
-  get options(): IOptions {
-    return this._options;
   }
 
   /**
