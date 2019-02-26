@@ -172,8 +172,8 @@ export class Converter {
     // Find modifiers
     const isApproximate = /[~%]/g.test(edtf);
     const isUncertain = /[\?%]/g.test(edtf);
-    const hasOpenStart = /^\[\.\./.test(edtf);
-    const hasOpenEnd = /\.\.\]$/.test(edtf);
+    const hasOpenStart = /^\[\s*\.\./.test(edtf);
+    const hasOpenEnd = /\.\.\s*]$/.test(edtf);
     // Remove modifiers and whitespace from string
     const edtfClean = edtf.replace(/[\[\.\[\]\?~%\s]/g, '');
     // Determine the format
