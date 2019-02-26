@@ -153,7 +153,8 @@ export class Converter {
    */
   public validateEdtf(edtf: string) {
     const modifier = String.raw`([?~%])`;
-    const edtfSection = String.raw`(${modifier}?\s*[0-9]{4}(-[0-9]{2}){0,2}\s*${modifier}?)`;
+    const date = String.raw`[0-9]{4}(-(0[1-9]|1[0-2])(-([0-2][1-9]|3[0-1]))?)?`;
+    const edtfSection = String.raw`(${modifier}?\s*${date}\s*${modifier}?)`;
     const openStart = String.raw`(\[(\s*\.\.)?)`;
     const openEnd = String.raw`((\.\.\s*)?])`;
     const edtfRegex =
