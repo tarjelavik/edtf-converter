@@ -2,26 +2,62 @@
  * @module EdtfConverter
  */
 
-import {get, merge} from 'lodash';
+import { get, merge } from 'lodash';
+import * as moment from 'moment';
 import parseWords from './parse-words';
 
-const DEFAULT_OPTIONS: IOptions = {
-  locales: ['en'],
-};
+/** @internal */
+interface IParseSingleEdtfToDateResult {
+  hasOpenEnd: boolean;
+  hasOpenStart: boolean;
+  isApproximate: boolean;
+  isUncertain: boolean;
+  maxDate: moment.Moment;
+  minDate: moment.Moment;
+}
 
 /** Allow customizing the converters' behaviour. */
 export interface IOptions {
-  /** The locales specify which words trigger a certain EDTF feature and how to parse date formats.
-   * The order of the locales determines their priority while parsing. *Currently, only 'en' is
-   * supported.
+  /** Used when converting an EDTF with the approxmiate modifier `~` to a date.
+   *
+   * Example: With `approximateVariance.days = 5`, the resulting min and max dates for
+   * "~1930-05-03" are "1930-04-28" and "1930-05-08" respectively.
    */
-  locales?: string[];
+  approximateVariance?: {
+    /** @default 3 */
+    days?: number,
+    /** @default 3 */
+    months?: number;
+    /** @default 3 */
+    years?: number;
+  };
   /**
    * Allows adding custom keywords with corresponding modifier functions. If a keyword is detected,
    * it's modifier is called with the original EDTF string expecting it to return a modified EDTF
    * string.
    */
   customKeywords?: {[keyword: string]: (edtf: string) => string};
+  /** The locales specify which words trigger a certain EDTF feature and how to parse date formats.
+   * The order of the locales determines their priority while parsing. *Currently, only 'en' is
+   * supported.
+   * @default ['en']
+   */
+  locales?: string[];
+}
+
+const DEFAULT_OPTIONS: IOptions = {
+  approximateVariance: {
+    days: 3,
+    months: 3,
+    years: 3,
+  },
+  locales: ['en'],
+};
+
+/** An object containing the minimum and maximum date for an EDTF value */
+export interface IDate {
+  min: moment.Moment | null;
+  max: moment.Moment | null;
 }
 
 /** Class representing a converter. */
@@ -87,5 +123,74 @@ export class Converter {
     }
 
     return edtf;
+  }
+
+  /**
+   * Converts an EDTF date string to `min` and `max` Moment.js dates
+   */
+  public edtfToDate(edtf: string): IDate {
+    const edtfArray = edtf.split('/');
+    const first = edtfArray[0];
+    const second = edtfArray[1];
+    const firstParseResult = this.singleEdtfToDate(first);
+    const secondParseResult = second ? this.singleEdtfToDate(second) : null;
+    let min: moment.Moment | null = null;
+    let max: moment.Moment | null = null;
+    if (firstParseResult.hasOpenStart) {
+      max = firstParseResult.maxDate;
+    } else if (firstParseResult.hasOpenEnd) {
+      min = firstParseResult.minDate;
+    } else {
+      min = firstParseResult.minDate;
+      max = secondParseResult ? secondParseResult.maxDate : firstParseResult.maxDate;
+    }
+    return {min, max};
+  }
+
+  /** Converts a single EDTF date section to a Moment.js date */
+  private singleEdtfToDate(edtf: string): IParseSingleEdtfToDateResult {
+    // Find modifiers
+    const isApproximate = /[~%]/g.test(edtf);
+    const isUncertain = /[\?%]/g.test(edtf);
+    const hasOpenStart = /^\[\.\./.test(edtf);
+    const hasOpenEnd = /\.\.\]$/.test(edtf);
+    // Remove modifiers from string
+    const edtfClean = edtf.replace(/[\[\.\[\]\?~%]/g, '');
+    // Determine the format
+    let format: string;
+    let unit: 'year' | 'month' | 'day';
+    let variance: number;
+    if (edtfClean.length === 4) {
+      format = 'YYYY';
+      unit = 'year';
+      variance = this.options!.approximateVariance!.years as number;
+    } else if (edtfClean.length === 7) {
+      format = 'YYYY-MM';
+      unit = 'month';
+      variance = this.options!.approximateVariance!.months as number;
+    } else {
+      format = 'YYYY-MM-DD';
+      unit = 'day';
+      variance = this.options!.approximateVariance!.days as number;
+    }
+    // Init date variables
+    const minDate = moment(edtfClean, format);
+    const maxDate = moment(edtfClean, format);
+    // Apply variance if approximate
+    if (isApproximate) {
+      minDate.subtract(variance, unit);
+      maxDate.add(variance, unit);
+    }
+    // Set dates to minimum and maximum possible value
+    minDate.startOf(unit);
+    maxDate.endOf(unit);
+    return {
+      hasOpenEnd,
+      hasOpenStart,
+      isApproximate,
+      isUncertain,
+      maxDate,
+      minDate,
+    };
   }
 }

@@ -910,9 +910,15 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-class tsd-parent-kind-external-module">
 			<a href="../classes/edtfconverter.converter.html" class="tsd-kind-icon">Converter</a>
 		</li>
+		<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+			<a href="edtfconverter.idate.html" class="tsd-kind-icon">IDate</a>
+		</li>
 		<li class="current tsd-kind-interface tsd-parent-kind-external-module">
 			<a href="edtfconverter.ioptions.html" class="tsd-kind-icon">IOptions</a>
 			<ul>
+				<li class=" tsd-kind-property tsd-parent-kind-interface">
+					<a href="edtfconverter.ioptions.html#approximatevariance" class="tsd-kind-icon">approximate<wbr>Variance</a>
+				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
 					<a href="edtfconverter.ioptions.html#customkeywords" class="tsd-kind-icon">custom<wbr>Keywords</a>
 				</li>
@@ -947,6 +953,7 @@ img { max-width: 100%; }
 					<section class="tsd-index-section ">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="edtfconverter.ioptions.html#approximatevariance" class="tsd-kind-icon">approximate<wbr>Variance</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="edtfconverter.ioptions.html#customkeywords" class="tsd-kind-icon">custom<wbr>Keywords</a></li>
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="edtfconverter.ioptions.html#locales" class="tsd-kind-icon">locales</a></li>
 						</ul>
@@ -957,12 +964,29 @@ img { max-width: 100%; }
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Properties</h2>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+				<a name="approximatevariance" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagOptional">Optional</span> approximate<wbr>Variance</h3>
+				<div class="tsd-signature tsd-kind-icon">approximate<wbr>Variance<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/nomistrebla/edtf-parser/blob/66619fe/dist/types/edtf-converter.d.ts#L12">edtf-converter.d.ts:12</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Used when converting an EDTF with the approxmiate modifier <code>~</code> to a date.</p>
+					</div>
+					<p>Example: With <code>approximateVariance.days = 5</code>, the resulting min and max dates for
+					&quot;~1930-05-03&quot; are &quot;1930-04-28&quot; and &quot;1930-05-08&quot; respectively.</p>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 				<a name="customkeywords" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagOptional">Optional</span> custom<wbr>Keywords</h3>
 				<div class="tsd-signature tsd-kind-icon">custom<wbr>Keywords<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in edtf-converter.d.ts:16</li>
+						<li>Defined in <a href="https://github.com/nomistrebla/edtf-parser/blob/66619fe/dist/types/edtf-converter.d.ts#L25">edtf-converter.d.ts:25</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -979,7 +1003,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">locales<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in edtf-converter.d.ts:10</li>
+						<li>Defined in <a href="https://github.com/nomistrebla/edtf-parser/blob/66619fe/dist/types/edtf-converter.d.ts#L33">edtf-converter.d.ts:33</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -988,6 +1012,11 @@ img { max-width: 100%; }
 							The order of the locales determines their priority while parsing. *Currently, only &#39;en&#39; is
 						supported.</p>
 					</div>
+					<dl class="tsd-comment-tags">
+						<dt>default</dt>
+						<dd><p>[&#39;en&#39;]</p>
+						</dd>
+					</dl>
 				</div>
 			</section>
 		</section>
