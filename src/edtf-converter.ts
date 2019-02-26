@@ -147,8 +147,28 @@ export class Converter {
     return {min, max};
   }
 
+  /** Checks whether a given EDTF string is valid
+   *  @throws {Error} Error thrown if invalid
+   *  @see {@link https://github.com/simon-mathewson/edtf-converter#compatibility | Compatibility}
+   */
+  public validateEdtf(edtf: string) {
+    const modifier = String.raw`([?~%])`;
+    const edtfSection = String.raw`(${modifier}?\s*[0-9]{4}(-[0-9]{2}){0,2}\s*${modifier}?)`;
+    const openStart = String.raw`(\[(\s*\.\.)?)`;
+    const openEnd = String.raw`((\.\.\s*)?])`;
+    const edtfRegex =
+        String.raw`^\s*${openStart}?\s*${edtfSection}\s*(\/\s*${edtfSection}|${openEnd}?)?\s*$`;
+    if (!new RegExp(edtfRegex).test(edtf)) {
+      throw new Error(
+        `Invalid EDTF: "${edtf}" is not EDTF compliant or contains unsupported features.`,
+      );
+    }
+  }
+
   /** Converts a single EDTF date section to a Moment.js date */
   private singleEdtfToDate(edtf: string): IParseSingleEdtfToDateResult {
+    // Validate input
+    this.validateEdtf(edtf);
     // Find modifiers
     const isApproximate = /[~%]/g.test(edtf);
     const isUncertain = /[\?%]/g.test(edtf);
