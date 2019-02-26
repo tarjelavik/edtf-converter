@@ -1,6 +1,6 @@
 # EDTF Converter
 
-Allows converting between natural language, EDTF compliant date strings and JS/Moment dates.
+Allows converting between natural language, EDTF compliant date strings and Moment.js dates.
 
 ## Installation
 
@@ -17,6 +17,9 @@ const { Converter } = require('edtf-converter');
 const converter = new Converter();
 converter.textToEdtf('1940 until about June 1942');
 // -> '1940/1942-06~'
+converter.edtfToDate('1940/1942-06~');
+// -> { min: moment.utc("1940-01-01T00:00:00.000+00:00"),
+//      max: moment.utc("1942-09-30T23:59:59.999+00:00") }
 ```
 
 ### Browser
@@ -28,6 +31,9 @@ import * as EdtfConverter from 'edtf-converter';
 const converter = new EdtfConverter.Converter();
 converter.textToEdtf('1940 until about June 1942');
 // -> '1940/1942-06~'
+converter.edtfToDate('1940/1942-06~');
+// -> { min: moment.utc("1940-01-01T00:00:00.000+00:00"),
+//      max: moment.utc("1942-09-30T23:59:59.999+00:00") }
 ```
 
 #### \<script>
@@ -38,6 +44,9 @@ Download [edtf-converter.min.js](https://raw.githubusercontent.com/simon-mathews
   const converter = new edtfConverter.Converter();
   converter.textToEdtf('1940 until about June 1942');
   // -> '1940/1942-06~'
+  converter.edtfToDate('1940/1942-06~');
+  // -> { min: moment.utc("1940-01-01T00:00:00.000+00:00"),
+  //      max: moment.utc("1942-09-30T23:59:59.999+00:00") }
 </script>
 ```
 
@@ -47,7 +56,7 @@ Download [edtf-converter.min.js](https://raw.githubusercontent.com/simon-mathews
 
 ## Compatibility
 
-edtf-converter implements select features of EDTF levels 0 and 1 as specified by ISO 8601-2 with some modifications, making it compatible to [EDTF.js](https://github.com/inukshuk/edtf.js).
+This package implements select features of EDTF levels 0 and 1 as specified by ISO 8601-2 with some modifications, making it compatible to [EDTF.js](https://github.com/inukshuk/edtf.js).
 
 ### Level 0
 
