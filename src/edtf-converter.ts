@@ -126,7 +126,7 @@ export class Converter {
   }
 
   /**
-   * Converts an EDTF date string to `min` and `max` Moment.js dates
+   * Converts an EDTF date string to `min` and `max` Moment.js dates (UTC)
    */
   public edtfToDate(edtf: string): IDate {
     const edtfArray = edtf.split('/');
@@ -166,7 +166,7 @@ export class Converter {
     }
   }
 
-  /** Converts a single EDTF date section to a Moment.js date */
+  /** Converts a single EDTF date section to a Moment.js date (UTC) */
   private singleEdtfToDate(edtf: string): IParseSingleEdtfToDateResult {
     // Validate input
     this.validateEdtf(edtf);
@@ -195,8 +195,8 @@ export class Converter {
       variance = this.options!.approximateVariance!.days as number;
     }
     // Init date variables
-    const minDate = moment(edtfClean, format);
-    const maxDate = moment(edtfClean, format);
+    const minDate = moment.utc(edtfClean, format);
+    const maxDate = moment.utc(edtfClean, format);
     // Apply variance if approximate
     if (isApproximate) {
       minDate.subtract(variance, unit);
