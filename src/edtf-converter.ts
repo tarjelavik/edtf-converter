@@ -154,8 +154,8 @@ export class Converter {
     const isUncertain = /[\?%]/g.test(edtf);
     const hasOpenStart = /^\[\.\./.test(edtf);
     const hasOpenEnd = /\.\.\]$/.test(edtf);
-    // Remove modifiers from string
-    const edtfClean = edtf.replace(/[\[\.\[\]\?~%]/g, '');
+    // Remove modifiers and whitespace from string
+    const edtfClean = edtf.replace(/[\[\.\[\]\?~%\s]/g, '');
     // Determine the format
     let format: string;
     let unit: 'year' | 'month' | 'day';
