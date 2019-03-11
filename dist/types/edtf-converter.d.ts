@@ -26,11 +26,10 @@ export interface IOptions {
         [keyword: string]: (edtf: string) => string;
     };
     /** The locales specify which words trigger a certain EDTF feature and how to parse date formats.
-     * The order of the locales determines their priority while parsing. *Currently, only 'en' is
-     * supported.
+     * The order of the locales determines their priority while parsing.
      * @default ['en']
      */
-    locales?: string[];
+    locales?: Array<'en' | 'fr'>;
 }
 /** An object containing the minimum and maximum date for an EDTF value */
 export interface IDate {
