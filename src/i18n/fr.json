@@ -1,0 +1,20 @@
+{
+  "$schema": "./schema.json",
+  "locale": "fr",
+  "dateFormats": ["DD/MM/YYYY", "YYYY-MM-DD", "DD/MM/YY", "D/M/YY", "D/M/YYYY", "MM/YYYY", "YYYY", "D MMM YYYY", "D MMMM YYYY", "MMM YYYY", "MMMM YYYY"],
+  "keywords": {
+    "approximate": ["c.", "ca.", "ca", "circa", "approx", "vers"],
+    "uncertain": ["pe", "?", "peut être", "peut-être"],
+    "interval": {
+      "delimiters": ["à"],
+      "openStart": ["avant", "à"],
+      "openEnd": ["depuis", "après"]
+    }
+  },
+  "seasons": [
+    ["printemps"],
+    ["été"],
+    ["automne"],
+    ["hiver"]
+  ]
+}
