@@ -49,7 +49,7 @@ module.exports = {
     // }),
     // Prevent Moment.js from imorting all locales
     new MomentLocalesPlugin({
-      localesToKeep: ['en'],
+      localesToKeep: ['en', 'fr'],
     }),
     // Clean unwanted declaration files after build
     new ExecPlugin(

@@ -2,7 +2,7 @@
  * @module EdtfConverter
  */
 
-import { get, merge } from 'lodash';
+import { compact, flatten, get, isArray, isString, mergeWith, uniq, zip } from 'lodash';
 import * as moment from 'moment';
 import parseWords from './parse-words';
 
@@ -38,11 +38,10 @@ export interface IOptions {
    */
   customKeywords?: {[keyword: string]: (edtf: string) => string};
   /** The locales specify which words trigger a certain EDTF feature and how to parse date formats.
-   * The order of the locales determines their priority while parsing. *Currently, only 'en' is
-   * supported.
+   * The order of the locales determines their priority while parsing.
    * @default ['en']
    */
-  locales?: string[];
+  locales?: Array<'en' | 'fr'>;
 }
 
 const DEFAULT_OPTIONS: IOptions = {
@@ -84,7 +83,13 @@ export class Converter {
         throw new Error(`Locale "${locale}" is not supported.`);
       }
     });
-    this.localeData = merge({}, ...locales);
+    this.localeData = mergeWith({}, ...locales, (objValue: any, srcValue: any) => {
+      if (isArray(objValue)) {
+        return uniq(compact(flatten(zip(objValue, srcValue))));
+      } else if (isString(objValue)) {
+        return [objValue, srcValue];
+      }
+    });
   }
 
   /**

@@ -1,4 +1,4 @@
-import { get } from 'lodash';
+import { get, isArray } from 'lodash';
 import { IOptions } from './edtf-converter';
 import findAndRemoveKeywords from './find-and-remove-keywords';
 import getValidDateFromString from './get-valid-date-from-string';
@@ -69,8 +69,9 @@ export default function parseWords(words: string[], options: IOptions, localeDat
 
   // Try parsing the dates using Moment.js
   const dateText = words.join(' ');
+  const localeNames = isArray(localeData.locale) ? localeData.locale : [localeData.locale];
   const {date, format} =
-      getValidDateFromString(dateText, localeData.dateFormats);
+      getValidDateFromString(dateText, localeData.dateFormats, localeNames);
 
   // Determine precision of the date
   let precision = DatePrecision.YEAR;

@@ -13,6 +13,7 @@ describe('edtf-converter', () => {
       'until at least': (edtf) => `[..${edtf}..]`,
       'as of': (edtf) => `[..${edtf}..]`,
     },
+    locales: ['en', 'fr']
   });
   
   describe('#edtfToDate should convert', () => {
