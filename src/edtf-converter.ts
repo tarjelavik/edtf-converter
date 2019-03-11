@@ -5,6 +5,7 @@
 import { compact, flatten, get, isArray, isString, mergeWith, uniq, zip } from 'lodash';
 import * as moment from 'moment';
 import parseWords from './parse-words';
+import preprocessText from './preprocess-text';
 
 /** @internal */
 interface IParseSingleEdtfToDateResult {
@@ -96,8 +97,8 @@ export class Converter {
    * Converts natural language to an EDTF compliant date string.
    */
   public textToEdtf(input: string): string {
-    // Remove commas
-    input = input.replace(/,/g, '');
+    // Prepare input for parsing
+    input = preprocessText(input);
 
     // Split input into array of words
     const words = input.split(/\s/);

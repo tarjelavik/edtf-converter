@@ -80,6 +80,8 @@ This package implements select features of EDTF levels 0 and 1 as specified by I
 | 1984 to 2001              | `1984/2001`             |
 | February 2010 - June 2011 | `2010-02/2011-06`       |
 | 12/31/2000 to 01/08/2001  | `2000-12-31/2001-01-08` |
+| 26-27/06/1978             | `1978-06-26/1978-06-27` |
+| September-October 1958    | `1958-09/1958-10`       |
 
 ### Level 1
 

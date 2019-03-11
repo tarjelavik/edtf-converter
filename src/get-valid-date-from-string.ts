@@ -21,16 +21,17 @@ export default function getValidDateFromString(
 ): IDateInfo {
   let date: moment.Moment | null = null;
   let format: string | null = null;
-  for (const locale of locales) {
-    moment.locale(locale);
-    for (format of formats) {
-      const momentDate = moment(dateString, format, true);
-      if (momentDate.isValid()) {
-        date = momentDate;
-        break;
+  searchLoop:
+    for (const locale of locales) {
+      moment.locale(locale);
+      for (format of formats) {
+        const momentDate = moment(dateString, format, true);
+        if (momentDate.isValid()) {
+          date = momentDate;
+          break searchLoop;
+        }
       }
     }
-  }
   if (!date) {
     throw new Error(
       `Date input "${dateString}" matches none of the available formats.`,
