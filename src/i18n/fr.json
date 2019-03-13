@@ -16,5 +16,19 @@
     ["été"],
     ["automne"],
     ["hiver"]
+  ], 
+  "months": [
+    ["jan", "janvier", "janv."],
+    ["feb", "fev", "février", "fév", "févr.", "fevr."],
+    ["mar", "mars"],
+    ["apr", "avril", "avr", "avr."],
+    ["may", "mai"],
+    ["jun", "juin"],
+    ["jul", "juillet", "juil", "juil.", "juill."],
+    ["aug", "août", "aout", "aoû"],
+    ["sep", "septembre", "sept."],
+    ["oct", "octobre", "oct."],
+    ["nov", "novembre", "nov"],
+    ["dec", "decembre", "décembre", "déc", "déc.", "dec."]
   ]
 }

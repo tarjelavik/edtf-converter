@@ -64,6 +64,18 @@
       },
       "minItems": 4,
       "maxItems": 4
+    },
+    "months": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "minItems": 1
+      },
+      "minItems": 12,
+      "maxItems": 12
     }
   },
   "required": ["locale", "dateFormats"],
