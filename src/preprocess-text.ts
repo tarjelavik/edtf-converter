@@ -12,7 +12,7 @@ export default function preprocessText(text: string): string {
 
   // Add month and year if missing (e.g. 1-2 December 2000)
   const partialOnlyDayMatch2 =
-    text.match(/^(\D*?)(\d{1,2})(\D+?)(\d{1,2})\s*([^-–\d]+)\s*(\d{4})(\D*?)$/);
+    text.match(/^(\D*?)(\d{1,2})(\s*[-–]+\s*)(\d{1,2})\s*([^-–\d]+)\s*(\d{4})(\D*?)$/);
   if (partialOnlyDayMatch2) {
     const [all, before, startDay, middle, endDay, month, year, after] = partialOnlyDayMatch2;
     text = `${before}${startDay} ${month}${year}${middle}${endDay} ${month}${year}${after}`;
