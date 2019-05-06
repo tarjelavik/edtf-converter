@@ -1,4 +1,7 @@
-export default function preprocessText(text: string): string {
+import * as escapeStringRegexp from 'escape-string-regexp';
+import * as moment from 'moment';
+
+export default function preprocessText(text: string, localeData: any): string {
   // Remove commas
   text = text.replace(/,/g, '');
 
@@ -48,6 +51,35 @@ export default function preprocessText(text: string): string {
   if (spacesMissingMatch) {
     const [all, start, end] = spacesMissingMatch;
     text = `${start} - ${end}`;
+  }
+
+  // Replace month shorthands with long versions so Moment.js can parse them
+  if (localeData.monthShorthands) {
+    const shorthandsList = localeData.monthShorthands as string[][];
+    shorthandsList.forEach((shorthands, monthIndex) => {
+      if (!shorthands || !shorthands.length) {
+        return;
+      }
+      shorthands.forEach((shorthand: string) => {
+        const escapedShorthand = escapeStringRegexp(shorthand);
+        const regexString
+            = String.raw`^(${escapedShorthand}) | (${escapedShorthand}) | (${escapedShorthand})$`;
+        const regex = new RegExp(regexString, 'gi');
+        const containsShorthand = regex.test(text);
+        if (containsShorthand) {
+          const fullMonthName = moment(`${monthIndex + 1}`, 'M').format('MMMM');
+          text = text.replace(regex, (all, start, middle) => {
+            if (start) {
+              return `${fullMonthName} `;
+            } else if (middle) {
+              return ` ${fullMonthName} `;
+            } else {
+              return `${fullMonthName} `;
+            }
+          });
+        }
+      });
+    });
   }
 
   return text;

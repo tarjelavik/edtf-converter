@@ -99,13 +99,19 @@ export class Converter {
         throw new Error(`Locale "${locale}" is not supported.`);
       }
     });
-    this.localeData = mergeWith({}, ...locales, (objValue: any, srcValue: any) => {
+    const mergeFn = (objValue: any, srcValue: any) => {
       if (isArray(objValue)) {
+        if (isArray(objValue[0])) {
+          return objValue.map((val, i) => {
+            return mergeFn(val, srcValue[i]);
+          });
+        }
         return uniq(compact(flatten(zip(objValue, srcValue))));
       } else if (isString(objValue)) {
         return [objValue, srcValue];
       }
-    });
+    }
+    this.localeData = mergeWith({}, ...locales, mergeFn);
   }
 
   /**
@@ -113,7 +119,7 @@ export class Converter {
    */
   public textToEdtf(input: string): string {
     // Prepare input for parsing
-    input = preprocessText(input);
+    input = preprocessText(input, this.localeData);
 
     // Split input into array of words
     const words = input.split(/\s/);

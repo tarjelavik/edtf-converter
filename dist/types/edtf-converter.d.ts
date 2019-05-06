@@ -75,11 +75,12 @@ export declare class Converter {
      * Converts an EDTF date string to `min` and `max` Moment.js dates (UTC)
      */
     edtfToDate(edtf: string): IDate;
-    /** Checks whether a given EDTF part is valid
+    /** Checks whether a given EDTF is valid
      *  @throws {Error} Error thrown if invalid
      *  @see {@link https://github.com/simon-mathewson/edtf-converter#compatibility | Compatibility}
      */
-    validateEdtfPart(edtf: string): void;
+    validateEdtf(edtf: string): void;
+    private validateEdtfPart;
     /**
      * Parses an EDTF to a result object containing information about it's modifiers and dates
      */

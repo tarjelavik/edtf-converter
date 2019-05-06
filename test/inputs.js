@@ -52,6 +52,9 @@ module.exports = {
   '1974 - 75': '1974/1975',
   '1 – 9 March 1921': '1921-03-01/1921-03-09', // m-dash
   'septembre-octobre 1958': '1958-09/1958-10',
+  // Month shorthands that are unknown to Moment.js
+  'févr. 20 2010': '2010-02-20',
+  'août 20 2010': '2010-08-20',
   // '1876 or 1877': [1876,1877],
   // 'Spring of 1969': '1969-21',
   // 'Summer of 1969': '1969-22',
