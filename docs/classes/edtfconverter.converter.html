@@ -920,6 +920,12 @@ img { max-width: 100%; }
 					<a href="edtfconverter.converter.html#edtftodate" class="tsd-kind-icon">edtf<wbr>ToDate</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="edtfconverter.converter.html#edtftotext" class="tsd-kind-icon">edtf<wbr>ToText</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="edtfconverter.converter.html#parseedtf" class="tsd-kind-icon">parse<wbr>Edtf</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
 					<a href="edtfconverter.converter.html#texttoedtf" class="tsd-kind-icon">text<wbr>ToEdtf</a>
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class">
@@ -928,10 +934,19 @@ img { max-width: 100%; }
 			</ul>
 		</li>
 		<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+			<a href="../interfaces/edtfconverter.icustommodifier.html" class="tsd-kind-icon">ICustom<wbr>Modifier</a>
+		</li>
+		<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 			<a href="../interfaces/edtfconverter.idate.html" class="tsd-kind-icon">IDate</a>
+		</li>
+		<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+			<a href="../interfaces/edtfconverter.iedtfpartresult.html" class="tsd-kind-icon">IEdtf<wbr>Part<wbr>Result</a>
 		</li>
 		<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 			<a href="../interfaces/edtfconverter.ioptions.html" class="tsd-kind-icon">IOptions</a>
+		</li>
+		<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+			<a href="../interfaces/edtfconverter.iparseedtfresult.html" class="tsd-kind-icon">IParse<wbr>Edtf<wbr>Result</a>
 		</li>
 	</ul>
 </nav>
@@ -972,6 +987,8 @@ img { max-width: 100%; }
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="edtfconverter.converter.html#edtftodate" class="tsd-kind-icon">edtf<wbr>ToDate</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="edtfconverter.converter.html#edtftotext" class="tsd-kind-icon">edtf<wbr>ToText</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="edtfconverter.converter.html#parseedtf" class="tsd-kind-icon">parse<wbr>Edtf</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="edtfconverter.converter.html#texttoedtf" class="tsd-kind-icon">text<wbr>ToEdtf</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="edtfconverter.converter.html#validateedtf" class="tsd-kind-icon">validate<wbr>Edtf</a></li>
 						</ul>
@@ -991,7 +1008,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/simon-mathewson/edtf-converter/blob/83e87bb/dist/types/edtf-converter.d.ts#L44">edtf-converter.d.ts:44</a></li>
+								<li>Defined in <a href="https://github.com/simon-mathewson/edtf-converter/blob/98ebfd7/dist/types/edtf-converter.d.ts#L63">edtf-converter.d.ts:63</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1018,7 +1035,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">options<span class="tsd-signature-symbol">:</span> <a href="../interfaces/edtfconverter.ioptions.html" class="tsd-signature-type">IOptions</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/simon-mathewson/edtf-converter/blob/83e87bb/dist/types/edtf-converter.d.ts#L44">edtf-converter.d.ts:44</a></li>
+						<li>Defined in <a href="https://github.com/simon-mathewson/edtf-converter/blob/98ebfd7/dist/types/edtf-converter.d.ts#L63">edtf-converter.d.ts:63</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1040,7 +1057,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/simon-mathewson/edtf-converter/blob/83e87bb/dist/types/edtf-converter.d.ts#L54">edtf-converter.d.ts:54</a></li>
+								<li>Defined in <a href="https://github.com/simon-mathewson/edtf-converter/blob/98ebfd7/dist/types/edtf-converter.d.ts#L77">edtf-converter.d.ts:77</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1059,6 +1076,62 @@ img { max-width: 100%; }
 				</ul>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="edtftotext" class="tsd-anchor"></a>
+				<h3>edtf<wbr>ToText</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">edtf<wbr>ToText<span class="tsd-signature-symbol">(</span>edtf<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/simon-mathewson/edtf-converter/blob/98ebfd7/dist/types/edtf-converter.d.ts#L73">edtf-converter.d.ts:73</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Converts an EDTF compliant date string to natural language.</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>edtf: <span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="parseedtf" class="tsd-anchor"></a>
+				<h3>parse<wbr>Edtf</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">parse<wbr>Edtf<span class="tsd-signature-symbol">(</span>edtf<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/edtfconverter.iparseedtfresult.html" class="tsd-signature-type">IParseEdtfResult</a></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/simon-mathewson/edtf-converter/blob/98ebfd7/dist/types/edtf-converter.d.ts#L87">edtf-converter.d.ts:87</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Parses an EDTF to a result object containing information about it&#39;s modifiers and dates</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>edtf: <span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <a href="../interfaces/edtfconverter.iparseedtfresult.html" class="tsd-signature-type">IParseEdtfResult</a></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 				<a name="texttoedtf" class="tsd-anchor"></a>
 				<h3>text<wbr>ToEdtf</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -1068,7 +1141,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/simon-mathewson/edtf-converter/blob/83e87bb/dist/types/edtf-converter.d.ts#L50">edtf-converter.d.ts:50</a></li>
+								<li>Defined in <a href="https://github.com/simon-mathewson/edtf-converter/blob/98ebfd7/dist/types/edtf-converter.d.ts#L69">edtf-converter.d.ts:69</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1096,12 +1169,12 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/simon-mathewson/edtf-converter/blob/83e87bb/dist/types/edtf-converter.d.ts#L59">edtf-converter.d.ts:59</a></li>
+								<li>Defined in <a href="https://github.com/simon-mathewson/edtf-converter/blob/98ebfd7/dist/types/edtf-converter.d.ts#L82">edtf-converter.d.ts:82</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
 							<div class="lead">
-								<p>Checks whether a given EDTF string is valid
+								<p>Checks whether a given EDTF is valid
 									@throws {Error} Error thrown if invalid
 								@see <a href="https://github.com/simon-mathewson/edtf-converter#compatibility " class="external"> Compatibility</a></p>
 							</div>

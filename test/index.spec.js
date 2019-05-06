@@ -9,11 +9,69 @@ describe('edtf-converter', () => {
       months: 5,
       days: 5,
     },
-    customKeywords: {
-      'until at least': (edtf) => `[..${edtf}..]`,
-      'as of': (edtf) => `[..${edtf}..]`,
-    },
+    customModifiers: [
+      {
+        keyword: 'until at least',
+        modifierRegex: /^\[\.\..*\.\.]$/,
+        addModifierFn: (edtf) => `[..${edtf}..]`,
+        removeModifierFn: (edtf) => edtf.substring(3, edtf.length - 3)
+      },
+      {
+        keyword: 'as of',
+        modifierRegex: /^\[\.\..*\.\.]$/,
+        addModifierFn: (edtf) => `[..${edtf}..]`,
+        removeModifierFn: (edtf) => edtf.substring(3, edtf.length - 3)
+      }
+    ],
     locales: ['en', 'fr']
+  });
+
+  describe('#textToEdtf', () => {
+    Object.entries(inputs).forEach(([input, expectation]) => {
+      it(`should convert ${input} to ${inputs[input]}`, () => {
+        const result = converter.textToEdtf(input);
+        assert.strictEqual(result, expectation);
+      });
+    });
+  });
+
+  describe('#edtfToText should convert', () => {
+    it('simple dates', () => {
+      assert.strictEqual(
+        converter.edtfToText('1999-07-30'),
+        '30/07/1999'
+      );
+    });
+    it('intervals', () => {
+      assert.strictEqual(
+        converter.edtfToText('1999-07-30/2001-10-01'),
+        '30/07/1999 to 01/10/2001'
+      );
+      assert.strictEqual(
+        converter.edtfToText('[..1999-07-30]'),
+        'before 30/07/1999'
+      );
+      assert.strictEqual(
+        converter.edtfToText('[2001-10-01?..]'),
+        'after maybe 01/10/2001'
+      );
+    });
+    it('regular modifiers', () => {
+      assert.strictEqual(
+        converter.edtfToText('1999-07-30~/2001-10-01?'),
+        'c. 30/07/1999 to maybe 01/10/2001'
+      );
+      assert.strictEqual(
+        converter.edtfToText('%1999-07-30'),
+        'maybe c. 30/07/1999'
+      );
+    });
+    it('custom modifiers', () => {
+      assert.strictEqual(
+        converter.edtfToText('[..1999-07-30..]'),
+        'until at least 30/07/1999'
+      );
+    });
   });
   
   describe('#edtfToDate should convert', () => {
@@ -74,15 +132,6 @@ describe('edtf-converter', () => {
         assert.strictEqual(max.toISOString(), '2010-12-31T23:59:59.999Z');
       })
     })
-  });
-
-  describe('#textToEdtf', () => {
-    Object.entries(inputs).forEach(([input, expectation]) => {
-      it(`should convert ${input} to ${inputs[input]}`, () => {
-        const result = converter.textToEdtf(input);
-        assert.strictEqual(result, expectation);
-      });
-    });
   });
 
   describe('#validateEdtf', () => {

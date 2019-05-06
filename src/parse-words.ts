@@ -1,5 +1,5 @@
 import { get, isArray } from 'lodash';
-import { IOptions } from './edtf-converter';
+import { ICustomModifier, IOptions } from './edtf-converter';
 import findAndRemoveKeywords from './find-and-remove-keywords';
 import getValidDateFromString from './get-valid-date-from-string';
 
@@ -18,21 +18,20 @@ export default function parseWords(words: string[], options: IOptions, localeDat
   // Collect keywords
   const keywords = {
     approximate: get(localeData, 'keywords.approximate') || [],
-    custom: options.customKeywords,
     openEnd: get(localeData, 'keywords.interval.openEnd') || [],
     openStart: get(localeData, 'keywords.interval.openStart') || [],
     uncertain: get(localeData, 'keywords.uncertain') || [],
   };
 
   // Find custom keywords and remove them from words array
-  const customKeywordModifiers: Array<(edtf: string) => string> = [];
-  if (keywords.custom) {
-    Object.keys(keywords.custom).forEach((keyword) => {
+  const detectedModifiers: ICustomModifier[] = [];
+  if (options.customModifiers!.length) {
+    options.customModifiers!.forEach((modifier) => {
       const wordsWithoutCustomKeywords
-          = findAndRemoveKeywords(words, [keyword]);
+          = findAndRemoveKeywords(words, [modifier.keyword]);
       if (wordsWithoutCustomKeywords) {
         words = wordsWithoutCustomKeywords;
-        customKeywordModifiers.push(keywords.custom![keyword]);
+        detectedModifiers.push(modifier);
       }
     });
   }
@@ -86,8 +85,8 @@ export default function parseWords(words: string[], options: IOptions, localeDat
   let edtfString = date.format(edtfFormats[precision]);
 
   // Modify EDTF string according to found keywords
-  customKeywordModifiers.forEach((modifier) => {
-    edtfString = modifier(edtfString);
+  detectedModifiers.forEach((modifier) => {
+    edtfString = modifier.addModifierFn(edtfString);
   });
   if (isApproximate && isUncertain) {
     edtfString += '%';

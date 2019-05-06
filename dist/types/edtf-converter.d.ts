@@ -2,6 +2,27 @@
  * @module EdtfConverter
  */
 import * as moment from 'moment';
+interface IEdtfPartResult {
+    cleanEdtf: string;
+    detectedModifiers: ICustomModifier[];
+    format: 'YYYY' | 'YYYY-MM' | 'YYYY-MM-DD';
+    hasOpenEnd: boolean;
+    hasOpenStart: boolean;
+    isApproximate: boolean;
+    isUncertain: boolean;
+    maxDate: moment.Moment;
+    minDate: moment.Moment;
+}
+interface IParseEdtfResult {
+    primaryPart: IEdtfPartResult;
+    secondaryPart: IEdtfPartResult;
+}
+export interface ICustomModifier {
+    keyword: string;
+    modifierRegex: RegExp;
+    addModifierFn: (edtf: string) => string;
+    removeModifierFn: (edtf: string) => string;
+}
 /** Allow customizing the converters' behaviour. */
 export interface IOptions {
     /** Used when converting an EDTF with the approxmiate modifier `~` to a date.
@@ -22,9 +43,7 @@ export interface IOptions {
      * it's modifier is called with the original EDTF string expecting it to return a modified EDTF
      * string.
      */
-    customKeywords?: {
-        [keyword: string]: (edtf: string) => string;
-    };
+    customModifiers?: ICustomModifier[];
     /** The locales specify which words trigger a certain EDTF feature and how to parse date formats.
      * The order of the locales determines their priority while parsing.
      * @default ['en']
@@ -49,14 +68,21 @@ export declare class Converter {
      */
     textToEdtf(input: string): string;
     /**
+     * Converts an EDTF compliant date string to natural language.
+     */
+    edtfToText(edtf: string): string;
+    /**
      * Converts an EDTF date string to `min` and `max` Moment.js dates (UTC)
      */
     edtfToDate(edtf: string): IDate;
-    /** Checks whether a given EDTF string is valid
+    /** Checks whether a given EDTF part is valid
      *  @throws {Error} Error thrown if invalid
      *  @see {@link https://github.com/simon-mathewson/edtf-converter#compatibility | Compatibility}
      */
-    validateEdtf(edtf: string): void;
-    /** Converts a single EDTF date section to a Moment.js date (UTC) */
-    private singleEdtfToDate;
+    validateEdtfPart(edtf: string): void;
+    /**
+     * Parses an EDTF to a result object containing information about it's modifiers and dates
+     */
+    parseEdtf(edtf: string): IParseEdtfResult;
 }
+export {};
