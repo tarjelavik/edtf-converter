@@ -264,33 +264,6 @@ export class Converter {
     return {min, max};
   }
 
-  /** Checks whether a given EDTF is valid
-   *  @throws {Error} Error thrown if invalid
-   *  @see {@link https://github.com/simon-mathewson/edtf-converter#compatibility | Compatibility}
-   */
-  public validateEdtf(edtf: string) {
-    const edtfArray = edtf.split('/');
-    this.validateEdtfPart(edtfArray[0]);
-    if (edtfArray[1]) {
-      this.validateEdtfPart(edtfArray[1]);
-    }
-  }
-
-  private validateEdtfPart(edtf: string) {
-    const modifier = String.raw`([?~%])`;
-    const date = String.raw`[0-9]{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1]))?)?`;
-    const edtfSection = String.raw`(${modifier}?\s*${date}\s*${modifier}?)`;
-    const openStart = String.raw`(\[(\s*\.\.)?)`;
-    const openEnd = String.raw`((\.\.\s*)?])`;
-    const edtfRegex =
-        String.raw`^\s*${openStart}?\s*${edtfSection}\s*(\/\s*${edtfSection}|${openEnd}?)?\s*$`;
-    if (!new RegExp(edtfRegex).test(edtf)) {
-      throw new Error(
-        `Invalid EDTF: "${edtf}" is not EDTF compliant or contains unsupported features.`,
-      );
-    }
-  }
-
   /**
    * Parses an EDTF to a result object containing information about it's modifiers and dates
    */
@@ -348,5 +321,32 @@ export class Converter {
       return result as IEdtfPartResult;
     });
     return { primaryPart, secondaryPart };
+  }
+
+  /** Checks whether a given EDTF is valid
+   *  @throws {Error} Error thrown if invalid
+   *  @see {@link https://github.com/simon-mathewson/edtf-converter#compatibility | Compatibility}
+   */
+  public validateEdtf(edtf: string) {
+    const edtfArray = edtf.split('/');
+    this.validateEdtfPart(edtfArray[0]);
+    if (edtfArray[1]) {
+      this.validateEdtfPart(edtfArray[1]);
+    }
+  }
+
+  private validateEdtfPart(edtf: string) {
+    const modifier = String.raw`([?~%])`;
+    const date = String.raw`[0-9]{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1]))?)?`;
+    const edtfSection = String.raw`(${modifier}?\s*${date}\s*${modifier}?)`;
+    const openStart = String.raw`(\[(\s*\.\.)?)`;
+    const openEnd = String.raw`((\.\.\s*)?])`;
+    const edtfRegex =
+        String.raw`^\s*${openStart}?\s*${edtfSection}\s*(\/\s*${edtfSection}|${openEnd}?)?\s*$`;
+    if (!new RegExp(edtfRegex).test(edtf)) {
+      throw new Error(
+        `Invalid EDTF: "${edtf}" is not EDTF compliant or contains unsupported features.`,
+      );
+    }
   }
 }
