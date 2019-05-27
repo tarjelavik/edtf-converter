@@ -13,6 +13,9 @@ module.exports = {
   '2000-07/2000-09': 'juillet – septembre 2000',
   '2000-07-01/2000-09-01': 'juillet 1 – septembre 1, 2000',
   '2000-07-01/2000-07-10': 'juillet 1 – 10, 2000',
+  // Centuries & decades
+  '18XX': '19th century',
+  '147X': '1470s',
   // Modifiers
   '1999-07-30~/2001-10-01?': 'c. juillet 30, 1999 – maybe octobre 1, 2001',
   '%1999-07-30': 'maybe c. juillet 30, 1999',

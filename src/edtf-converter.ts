@@ -14,6 +14,8 @@ interface IEdtfPartResult {
   hasOpenEnd: boolean;
   hasOpenStart: boolean;
   isApproximate: boolean;
+  isCentury: boolean;
+  isDecade: boolean;
   isUncertain: boolean;
   maxDate: moment.Moment;
   minDate: moment.Moment;
@@ -234,7 +236,14 @@ export class Converter {
             }
           }
         }
-        const dateText = moment(partResult.cleanEdtf, partResult.format).format(dateFormat);
+        let dateText: string;
+        if (partResult.isCentury) {
+          dateText = `${(+partResult.cleanEdtf.substr(0, 2) + 1)}th century`;
+        } else if (partResult.isDecade) {
+          dateText = `${partResult.cleanEdtf.substr(0, 3)}0s`;
+        } else {
+          dateText = moment(partResult.cleanEdtf, partResult.format).format(dateFormat);
+        }
         textArray.push(dateText);
         return textArray.join(' ');
       })
@@ -286,6 +295,8 @@ export class Converter {
       this.validateEdtfPart(edtfPart);
       // Find modifiers
       result.isApproximate = /[~%]/g.test(edtfPart);
+      result.isCentury = /^[0-9]{2}XX$/.test(edtfPart);
+      result.isDecade = /^[0-9]{3}X$/.test(edtfPart);
       result.isUncertain = /[\?%]/g.test(edtfPart);
       result.hasOpenStart = /^\[\s*\.\./.test(edtfPart);
       result.hasOpenEnd = /\.\.\s*]$/.test(edtfPart);
@@ -308,8 +319,13 @@ export class Converter {
         variance = this.options!.approximateVariance!.days as number;
       }
       // Init date variables
-      result.minDate = moment.utc(result.cleanEdtf, result.format);
-      result.maxDate = moment.utc(result.cleanEdtf, result.format);
+      if (result.isCentury || result.isDecade) {
+        result.minDate = moment.utc(result.cleanEdtf.replace(/X/g, '0'), result.format);
+        result.maxDate = moment.utc(result.cleanEdtf.replace(/X/g, '9'), result.format);
+      } else {
+        result.minDate = moment.utc(result.cleanEdtf, result.format);
+        result.maxDate = moment.utc(result.cleanEdtf, result.format);
+      }
       // Apply variance if approximate
       if (result.isApproximate) {
         result.minDate.subtract(variance, unit);
@@ -337,7 +353,8 @@ export class Converter {
 
   private validateEdtfPart(edtf: string) {
     const modifier = String.raw`([?~%])`;
-    const date = String.raw`[0-9]{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1]))?)?`;
+    // tslint:disable-next-line: max-line-length
+    const date = String.raw`([0-9]{4}|[0-9]{3}X|[0-9]{2}XX)(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1]))?)?`;
     const edtfSection = String.raw`(${modifier}?\s*${date}\s*${modifier}?)`;
     const openStart = String.raw`(\[(\s*\.\.)?)`;
     const openEnd = String.raw`((\.\.\s*)?])`;
