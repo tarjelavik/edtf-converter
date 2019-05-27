@@ -9,6 +9,8 @@ interface IEdtfPartResult {
     hasOpenEnd: boolean;
     hasOpenStart: boolean;
     isApproximate: boolean;
+    isCentury: boolean;
+    isDecade: boolean;
     isUncertain: boolean;
     maxDate: moment.Moment;
     minDate: moment.Moment;
@@ -16,6 +18,7 @@ interface IEdtfPartResult {
 interface IParseEdtfResult {
     primaryPart: IEdtfPartResult;
     secondaryPart: IEdtfPartResult;
+    separator: string | null;
 }
 export interface ICustomModifier {
     keyword: string;
@@ -44,7 +47,26 @@ export interface IOptions {
      * string.
      */
     customModifiers?: ICustomModifier[];
-    /** The locales specify which words trigger a certain EDTF feature and how to parse date formats.
+    customSeparators?: ICustomModifier[];
+    /** Used when converting an EDTF to natural language. */
+    edtfToTextOptions?: {
+        dateFormat?: string;
+        /**
+         *  If provided, converter merges intervals like
+         * `1 June 2000 - 5 June 2000` to `1-5 June 2000`.
+         */
+        mergedIntervalDateFormats?: {
+            /** @example ['MMMM D', 'MMMM D, YYYY'] => July 1 – September 1, 2000 */
+            sameYear?: string[];
+            /** @example ['MMMM D', 'D, YYYY'] => July 1 – 10, 2000 */
+            sameYearAndMonth?: string[];
+            /** @example ['MMMM', 'MMMM YYYY'] => July – September 2000 */
+            sameYearOnlyMonth?: string[];
+        };
+        separator?: string;
+    };
+    /**
+     * The locales specify which words trigger a certain EDTF feature and how to parse date formats.
      * The order of the locales determines their priority while parsing.
      * @default ['en']
      */
@@ -75,15 +97,15 @@ export declare class Converter {
      * Converts an EDTF date string to `min` and `max` Moment.js dates (UTC)
      */
     edtfToDate(edtf: string): IDate;
+    /**
+     * Parses an EDTF to a result object containing information about it's modifiers and dates
+     */
+    parseEdtf(edtf: string): IParseEdtfResult;
     /** Checks whether a given EDTF is valid
      *  @throws {Error} Error thrown if invalid
      *  @see {@link https://github.com/simon-mathewson/edtf-converter#compatibility | Compatibility}
      */
     validateEdtf(edtf: string): void;
     private validateEdtfPart;
-    /**
-     * Parses an EDTF to a result object containing information about it's modifiers and dates
-     */
-    parseEdtf(edtf: string): IParseEdtfResult;
 }
 export {};

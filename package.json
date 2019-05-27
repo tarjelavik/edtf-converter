@@ -1,6 +1,6 @@
 {
   "name": "edtf-converter",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Allows converting between natural language, EDTF compliant date strings and JS/Moment dates.",
   "main": "./dist/edtf-converter.min.js",
   "types": "./dist/types/edtf-converter.d.ts",
