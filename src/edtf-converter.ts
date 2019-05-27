@@ -52,7 +52,25 @@ export interface IOptions {
    * string.
    */
   customModifiers?: ICustomModifier[];
-  /** The locales specify which words trigger a certain EDTF feature and how to parse date formats.
+  /** Used when converting an EDTF to natural language. */
+  edtfToTextOptions?: {
+    dateFormat?: string;
+    /**
+     *  If provided, converter merges intervals like
+     * `1 June 2000 - 5 June 2000` to `1-5 June 2000`.
+     */
+    mergedIntervalDateFormats?: {
+      /** @example ['MMMM D', 'MMMM D, YYYY'] => July 1 – September 1, 2000 */
+      sameYear?: string[],
+      /** @example ['MMMM D', 'D, YYYY'] => July 1 – 10, 2000 */
+      sameYearAndMonth?: string[],
+      /** @example ['MMMM', 'MMMM YYYY'] => July – September 2000 */
+      sameYearOnlyMonth?: string[],
+    };
+    separator?: string;
+  };
+  /**
+   * The locales specify which words trigger a certain EDTF feature and how to parse date formats.
    * The order of the locales determines their priority while parsing.
    * @default ['en']
    */
@@ -66,6 +84,11 @@ const DEFAULT_OPTIONS: IOptions = {
     years: 3,
   },
   customModifiers: [],
+  edtfToTextOptions: {
+    dateFormat: undefined,
+    mergedIntervalDateFormats: undefined,
+    separator: undefined,
+  },
   locales: ['en'],
 };
 
@@ -110,7 +133,7 @@ export class Converter {
       } else if (isString(objValue)) {
         return [objValue, srcValue];
       }
-    }
+    };
     this.localeData = mergeWith({}, ...locales, mergeFn);
   }
 
@@ -157,8 +180,10 @@ export class Converter {
    */
   public edtfToText(edtf: string): string {
     const parseResult = this.parseEdtf(edtf);
+    const separator = this.options.edtfToTextOptions!.separator ||
+      this.localeData.keywords.interval.delimiters[0];
     return [parseResult.primaryPart, parseResult.secondaryPart]
-      .map((partResult) => {
+      .map((partResult, index) => {
         if (!partResult) {
           return null;
         }
@@ -178,13 +203,43 @@ export class Converter {
         if (partResult.isApproximate) {
           textArray.push(this.localeData.keywords.approximate[0]);
         }
-        const primaryDateFormat = this.localeData.dateFormats[0];
-        const dateText = moment(partResult.cleanEdtf, partResult.format).format(primaryDateFormat);
+        let dateFormat = this.options.edtfToTextOptions!.dateFormat ||
+          this.localeData.dateFormats[0];
+        if (dateFormat.includes('D') && !partResult.format.includes('D')) {
+          dateFormat = dateFormat.replace(/D,?\s*/g, '').trim();
+        }
+        if (dateFormat.includes('M') && !partResult.format.includes('M')) {
+          dateFormat = dateFormat.replace(/M,?\s*/g, '').trim();
+        }
+        const mergedFormats = this.options.edtfToTextOptions!.mergedIntervalDateFormats;
+        if (mergedFormats && parseResult.secondaryPart) {
+          const startYear = parseResult.primaryPart.cleanEdtf.substr(0, 4);
+          const endYear = parseResult.secondaryPart.cleanEdtf.substr(0, 4);
+          const startMonth = parseResult.primaryPart.cleanEdtf.substr(5, 2);
+          const endMonth = parseResult.secondaryPart.cleanEdtf.substr(5, 2);
+          if (startYear === endYear) {
+            if (
+              startMonth === endMonth &&
+              partResult.format.includes('D') &&
+              mergedFormats.sameYearAndMonth
+            ) {
+              dateFormat = mergedFormats.sameYearAndMonth[index];
+            } else {
+              if (partResult.format.includes('D') && mergedFormats.sameYear) {
+                dateFormat = mergedFormats.sameYear[index];
+              }
+              if (!partResult.format.includes('D') && mergedFormats.sameYearOnlyMonth) {
+                dateFormat = mergedFormats.sameYearOnlyMonth[index];
+              }
+            }
+          }
+        }
+        const dateText = moment(partResult.cleanEdtf, partResult.format).format(dateFormat);
         textArray.push(dateText);
         return textArray.join(' ');
       })
       .filter((part) => !!part)
-      .join(` ${this.localeData.keywords.interval.delimiters[0]} `);
+      .join(` ${separator} `);
   }
 
   /**
@@ -223,7 +278,7 @@ export class Converter {
 
   private validateEdtfPart(edtf: string) {
     const modifier = String.raw`([?~%])`;
-    const date = String.raw`[0-9]{4}(-(0[1-9]|1[0-2])(-([0-2][1-9]|3[0-1]))?)?`;
+    const date = String.raw`[0-9]{4}(-(0[1-9]|1[0-2])(-(0[1-9]|[1-2][0-9]|3[0-1]))?)?`;
     const edtfSection = String.raw`(${modifier}?\s*${date}\s*${modifier}?)`;
     const openStart = String.raw`(\[(\s*\.\.)?)`;
     const openEnd = String.raw`((\.\.\s*)?])`;

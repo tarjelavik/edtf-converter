@@ -23,7 +23,16 @@ describe('edtf-converter', () => {
         removeModifierFn: (edtf) => edtf.substring(3, edtf.length - 3)
       }
     ],
-    locales: ['en', 'fr']
+    locales: ['en', 'fr'],
+    edtfToTextOptions: {
+      dateFormat: 'MMMM D, YYYY',
+      mergedIntervalDateFormats: {
+        sameYear: ['MMMM D', 'MMMM D, YYYY'],
+        sameYearAndMonth: ['MMMM D', 'D, YYYY'],
+        sameYearOnlyMonth: ['MMMM', 'MMMM YYYY']
+      },
+      separator: '–',
+    }
   });
 
   describe('#textToEdtf', () => {
@@ -36,40 +45,68 @@ describe('edtf-converter', () => {
   });
 
   describe('#edtfToText should convert', () => {
-    it('simple dates', () => {
+    it('full dates', () => {
       assert.strictEqual(
         converter.edtfToText('1999-07-30'),
-        '30/07/1999'
+        'juillet 30, 1999'
       );
     });
-    it('intervals', () => {
+    it('month and year only dates', () => {
       assert.strictEqual(
-        converter.edtfToText('1999-07-30/2001-10-01'),
-        '30/07/1999 to 01/10/2001'
+        converter.edtfToText('1999-07'),
+        'juillet 1999'
       );
+    });
+    it('year only dates', () => {
       assert.strictEqual(
-        converter.edtfToText('[..1999-07-30]'),
-        'before 30/07/1999'
+        converter.edtfToText('1999'),
+        '1999'
       );
-      assert.strictEqual(
-        converter.edtfToText('[2001-10-01?..]'),
-        'after maybe 01/10/2001'
-      );
+    });
+    describe('intervals', () => {
+      it('regular', () => {
+        assert.strictEqual(
+          converter.edtfToText('1999-07-30/2001-10-01'),
+          'juillet 30, 1999 – octobre 1, 2001'
+        );
+        assert.strictEqual(
+          converter.edtfToText('[..1999-07-30]'),
+          'before juillet 30, 1999'
+        );
+        assert.strictEqual(
+          converter.edtfToText('[2001-10-01?..]'),
+          'after maybe octobre 1, 2001'
+        );
+      });
+      it('merged', () => {
+        assert.strictEqual(
+          converter.edtfToText('2000-07/2000-09'),
+          'juillet – septembre 2000'
+        );
+        assert.strictEqual(
+          converter.edtfToText('2000-07-01/2000-09-01'),
+          'juillet 1 – septembre 1, 2000'
+        );
+        assert.strictEqual(
+          converter.edtfToText('2000-07-01/2000-07-10'),
+          'juillet 1 – 10, 2000'
+        );
+      });
     });
     it('regular modifiers', () => {
       assert.strictEqual(
         converter.edtfToText('1999-07-30~/2001-10-01?'),
-        'c. 30/07/1999 to maybe 01/10/2001'
+        'c. juillet 30, 1999 – maybe octobre 1, 2001'
       );
       assert.strictEqual(
         converter.edtfToText('%1999-07-30'),
-        'maybe c. 30/07/1999'
+        'maybe c. juillet 30, 1999'
       );
     });
     it('custom modifiers', () => {
       assert.strictEqual(
         converter.edtfToText('[..1999-07-30..]'),
-        'until at least 30/07/1999'
+        'until at least juillet 30, 1999'
       );
     });
   });
