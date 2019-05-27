@@ -191,19 +191,16 @@ export class Converter {
         }
         const textArray: string[] = [];
         partResult.detectedModifiers.forEach((modifier) => {
-          textArray.push(modifier.keyword);
+          textArray.push(modifier.keyword, ' ');
         });
         if (partResult.hasOpenEnd) {
-          textArray.push(this.localeData.keywords.interval.openEnd[0]);
+          textArray.push(this.localeData.keywords.interval.openEnd[0], ' ');
         }
         if (partResult.hasOpenStart) {
-          textArray.push(this.localeData.keywords.interval.openStart[0]);
-        }
-        if (partResult.isUncertain) {
-          textArray.push(this.localeData.keywords.uncertain[0]);
+          textArray.push(this.localeData.keywords.interval.openStart[0], ' ');
         }
         if (partResult.isApproximate) {
-          textArray.push(this.localeData.keywords.approximate[0]);
+          textArray.push(this.localeData.keywords.approximate[0], ' ');
         }
         let dateFormat = this.options.edtfToTextOptions!.dateFormat ||
           this.localeData.dateFormats[0];
@@ -245,7 +242,10 @@ export class Converter {
           dateText = moment(partResult.cleanEdtf, partResult.format).format(dateFormat);
         }
         textArray.push(dateText);
-        return textArray.join(' ');
+        if (partResult.isUncertain) {
+          textArray.push('?');
+        }
+        return textArray.join('');
       })
       .filter((part) => !!part)
       .join(` ${separator} `);
