@@ -7,8 +7,8 @@
     "uncertain": ["maybe", "possibly", "?"],
     "interval": {
       "delimiters": ["to", "until"],
-      "openStart": ["before", "until"],
-      "openEnd": ["after", "from", "since", "as of"]
+      "openStart": ["until", "before"],
+      "openEnd": ["or after", "after", "from", "since", "as of"]
     }
   },
   "seasons": [

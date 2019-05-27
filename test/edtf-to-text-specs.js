@@ -7,8 +7,8 @@ module.exports = {
   '1999': '1999',
   // Intervals
   '1999-07-30/2001-10-01': 'juillet 30, 1999 – octobre 1, 2001',
-  '[..1999-07-30]': 'before juillet 30, 1999',
-  '[2001-10-01?..]': 'after octobre 1, 2001?',
+  '[..1999-07-30]': 'until juillet 30, 1999',
+  '[2001-10-01?..]': 'octobre 1, 2001 or after?',
   // Merged intervals
   '2000-07/2000-09': 'juillet – septembre 2000',
   '2000-07-01/2000-09-01': 'juillet 1 – septembre 1, 2000',

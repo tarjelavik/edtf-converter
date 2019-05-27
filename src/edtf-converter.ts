@@ -197,9 +197,6 @@ export class Converter {
         partResult.detectedModifiers.forEach((modifier) => {
           textArray.push(modifier.keyword, ' ');
         });
-        if (partResult.hasOpenEnd) {
-          textArray.push(this.localeData.keywords.interval.openEnd[0], ' ');
-        }
         if (partResult.hasOpenStart) {
           textArray.push(this.localeData.keywords.interval.openStart[0], ' ');
         }
@@ -246,6 +243,9 @@ export class Converter {
           dateText = moment(partResult.cleanEdtf, partResult.format).format(dateFormat);
         }
         textArray.push(dateText);
+        if (partResult.hasOpenEnd) {
+          textArray.push(' ', this.localeData.keywords.interval.openEnd[0]);
+        }
         if (partResult.isUncertain) {
           textArray.push('?');
         }
