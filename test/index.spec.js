@@ -12,17 +12,19 @@ describe('edtf-converter', () => {
     },
     customModifiers: [
       {
-        keyword: 'until at least',
-        modifierRegex: /^\[\.\..*\.\.]$/,
-        addModifierFn: (edtf) => `[..${edtf}..]`,
-        removeModifierFn: (edtf) => edtf.substring(3, edtf.length - 3)
-      },
-      {
         keyword: 'as of',
-        modifierRegex: /^\[\.\..*\.\.]$/,
+        modifierRegex: /^\[\.\.[^\/]+\.\.]$/,
         addModifierFn: (edtf) => `[..${edtf}..]`,
         removeModifierFn: (edtf) => edtf.substring(3, edtf.length - 3)
       }
+    ],
+    customSeparators: [
+      {
+        keyword: 'until at least',
+        modifierRegex: /^\[\.\..+\/.+\.\.]$/,
+        addModifierFn: (edtf) => `[..${edtf}..]`,
+        removeModifierFn: (edtf) => edtf.substring(3, edtf.length - 3)
+      },
     ],
     locales: ['en', 'fr'],
     edtfToTextOptions: {

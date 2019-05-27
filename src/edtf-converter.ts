@@ -24,6 +24,7 @@ interface IEdtfPartResult {
 interface IParseEdtfResult {
   primaryPart: IEdtfPartResult;
   secondaryPart: IEdtfPartResult;
+  separator: string | null;
 }
 
 export interface ICustomModifier {
@@ -54,6 +55,7 @@ export interface IOptions {
    * string.
    */
   customModifiers?: ICustomModifier[];
+  customSeparators?: ICustomModifier[];
   /** Used when converting an EDTF to natural language. */
   edtfToTextOptions?: {
     dateFormat?: string;
@@ -86,6 +88,7 @@ const DEFAULT_OPTIONS: IOptions = {
     years: 3,
   },
   customModifiers: [],
+  customSeparators: [],
   edtfToTextOptions: {
     dateFormat: undefined,
     mergedIntervalDateFormats: undefined,
@@ -182,7 +185,8 @@ export class Converter {
    */
   public edtfToText(edtf: string): string {
     const parseResult = this.parseEdtf(edtf);
-    const separator = this.options.edtfToTextOptions!.separator ||
+    const separator = parseResult.separator ||
+      this.options.edtfToTextOptions!.separator ||
       this.localeData.keywords.interval.delimiters[0];
     return [parseResult.primaryPart, parseResult.secondaryPart]
       .map((partResult, index) => {
@@ -277,6 +281,14 @@ export class Converter {
    * Parses an EDTF to a result object containing information about it's modifiers and dates
    */
   public parseEdtf(edtf: string): IParseEdtfResult {
+    let separator: string;
+    // Detect and remove custom separators
+    this.options.customSeparators!.forEach((customSeparator) => {
+      if (customSeparator.modifierRegex.test(edtf)) {
+        separator = customSeparator.keyword;
+        edtf = customSeparator.removeModifierFn(edtf);
+      }
+    });
     // Split edtf into parts to process separately
     const edtfArray = edtf.split('/');
     const [primaryPart, secondaryPart] = edtfArray.map((edtfPart) => {
@@ -336,7 +348,7 @@ export class Converter {
       result.maxDate.endOf(unit);
       return result as IEdtfPartResult;
     });
-    return { primaryPart, secondaryPart };
+    return { primaryPart, secondaryPart, separator: separator! };
   }
 
   /** Checks whether a given EDTF is valid

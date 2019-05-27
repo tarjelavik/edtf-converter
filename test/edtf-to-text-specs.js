@@ -20,5 +20,6 @@ module.exports = {
   '1999-07-30~/2001-10-01?': 'c. juillet 30, 1999 – octobre 1, 2001?',
   '%1999-07-30': 'c. juillet 30, 1999?',
   // Custom modifiers
-  '[..1999-07-30..]': 'until at least juillet 30, 1999'
+  '[..1999-07-30..]': 'as of juillet 30, 1999',
+  '[..1999-07-30/2000..]': 'juillet 30, 1999 until at least 2000',
 };
