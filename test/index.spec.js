@@ -1,5 +1,6 @@
 const EdtfConverter = require('../').Converter;
-const inputs = require('./inputs');
+const textToEdtfSpecs = require('./text-to-edtf-specs');
+const edtfToTextSpecs = require('./edtf-to-text-specs');
 const assert = require('assert');
 
 describe('edtf-converter', () => {
@@ -36,78 +37,20 @@ describe('edtf-converter', () => {
   });
 
   describe('#textToEdtf', () => {
-    Object.entries(inputs).forEach(([input, expectation]) => {
-      it(`should convert ${input} to ${inputs[input]}`, () => {
+    Object.entries(textToEdtfSpecs).forEach(([input, expectation]) => {
+      it(`should convert ${input} to ${textToEdtfSpecs[input]}`, () => {
         const result = converter.textToEdtf(input);
         assert.strictEqual(result, expectation);
       });
     });
   });
 
-  describe('#edtfToText should convert', () => {
-    it('full dates', () => {
-      assert.strictEqual(
-        converter.edtfToText('1999-07-30'),
-        'juillet 30, 1999'
-      );
-    });
-    it('month and year only dates', () => {
-      assert.strictEqual(
-        converter.edtfToText('1999-07'),
-        'juillet 1999'
-      );
-    });
-    it('year only dates', () => {
-      assert.strictEqual(
-        converter.edtfToText('1999'),
-        '1999'
-      );
-    });
-    describe('intervals', () => {
-      it('regular', () => {
-        assert.strictEqual(
-          converter.edtfToText('1999-07-30/2001-10-01'),
-          'juillet 30, 1999 – octobre 1, 2001'
-        );
-        assert.strictEqual(
-          converter.edtfToText('[..1999-07-30]'),
-          'before juillet 30, 1999'
-        );
-        assert.strictEqual(
-          converter.edtfToText('[2001-10-01?..]'),
-          'after maybe octobre 1, 2001'
-        );
+  describe('#edtfToText', () => {
+    Object.entries(edtfToTextSpecs).forEach(([input, expectation]) => {
+      it(`should convert ${input} to ${edtfToTextSpecs[input]}`, () => {
+        const result = converter.edtfToText(input);
+        assert.strictEqual(result, expectation);
       });
-      it('merged', () => {
-        assert.strictEqual(
-          converter.edtfToText('2000-07/2000-09'),
-          'juillet – septembre 2000'
-        );
-        assert.strictEqual(
-          converter.edtfToText('2000-07-01/2000-09-01'),
-          'juillet 1 – septembre 1, 2000'
-        );
-        assert.strictEqual(
-          converter.edtfToText('2000-07-01/2000-07-10'),
-          'juillet 1 – 10, 2000'
-        );
-      });
-    });
-    it('regular modifiers', () => {
-      assert.strictEqual(
-        converter.edtfToText('1999-07-30~/2001-10-01?'),
-        'c. juillet 30, 1999 – maybe octobre 1, 2001'
-      );
-      assert.strictEqual(
-        converter.edtfToText('%1999-07-30'),
-        'maybe c. juillet 30, 1999'
-      );
-    });
-    it('custom modifiers', () => {
-      assert.strictEqual(
-        converter.edtfToText('[..1999-07-30..]'),
-        'until at least juillet 30, 1999'
-      );
     });
   });
   
