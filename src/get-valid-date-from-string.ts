@@ -21,6 +21,7 @@ export default function getValidDateFromString(
 ): IDateInfo {
   let date: moment.Moment | null = null;
   let format: string | null = null;
+  const originalMomentLocale = moment.locale();
   searchLoop:
     for (const locale of locales) {
       moment.locale(locale);
@@ -32,6 +33,7 @@ export default function getValidDateFromString(
         }
       }
     }
+  moment.locale(originalMomentLocale);
   if (!date) {
     throw new Error(
       `Date input "${dateString}" matches none of the available formats.`,

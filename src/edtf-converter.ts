@@ -140,6 +140,7 @@ export class Converter {
       }
     };
     this.localeData = mergeWith({}, ...locales, mergeFn);
+    moment.locale(localeNames[0]);
   }
 
   /**
