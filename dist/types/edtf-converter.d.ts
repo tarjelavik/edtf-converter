@@ -103,7 +103,6 @@ export declare class Converter {
     parseEdtf(edtf: string): IParseEdtfResult;
     /** Checks whether a given EDTF is valid
      *  @throws {Error} Error thrown if invalid
-     *  @see {@link https://github.com/simon-mathewson/edtf-converter#compatibility | Compatibility}
      */
     validateEdtf(edtf: string): void;
     private validateEdtfPart;

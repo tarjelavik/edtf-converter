@@ -37,7 +37,7 @@ converter.edtfToDate('1940/1942-06~');
 ```
 
 #### \<script>
-Download [edtf-converter.min.js](https://raw.githubusercontent.com/simon-mathewson/edtf-converter/master/dist/edtf-converter.min.js) separately without the rest of the package.
+Download `edtf-converter.min.js` separately without the rest of the package.
 ```html
 <script src="edtf-converter.min.js"></script>
 <script>
@@ -49,10 +49,6 @@ Download [edtf-converter.min.js](https://raw.githubusercontent.com/simon-mathews
   //      max: moment.utc("1942-09-30T23:59:59.999+00:00") }
 </script>
 ```
-
-## API Reference
-
-### [Open API Reference](https://simon-mathewson.github.io/edtf-converter/modules/edtfconverter.html)
 
 ## Compatibility
 
@@ -127,7 +123,3 @@ This package implements select features of EDTF levels 0 and 1 as specified by I
 #### Negative Calendar Year
 
 *Not supported*
-
-## License
-
-MIT © Simon Mathewson
