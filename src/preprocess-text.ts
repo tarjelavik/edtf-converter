@@ -23,10 +23,10 @@ export default function preprocessText(text: string, localeData: any): string {
 
   // Add year if missing (e.g. 31/01-31/02/2000)
   const partialOnlyDayMonthMatch =
-      text.match(/^(\D*?)(\d{1,2})\/(\d{1,2})(\D+?)(\d{1,2})\/(\d{1,2})\/(\d{4})(\D*?)$/);
+    text.match(/^(\D*?)(\d{1,2})\/(\d{1,2})(\D+?)(\d{1,2})\/(\d{1,2})\/(\d{4})(\D*?)$/);
   if (partialOnlyDayMonthMatch) {
     const [all, before, startDay, startMonth, middle, endDay, endMonth, year, after] =
-        partialOnlyDayMonthMatch;
+      partialOnlyDayMonthMatch;
     text =
       `${before}${startDay}/${startMonth}/${year}${middle}${endDay}/${endMonth}/${year}${after}`;
   }
@@ -37,6 +37,23 @@ export default function preprocessText(text: string, localeData: any): string {
     const [all, startMonth, endMonth, year] = partialOnlyMonthMatch;
     text =
       `${startMonth} ${year} - ${endMonth}${year}`;
+  }
+
+  // Add year if missing (e.g. 16 September - 18 October 1958)
+  const partialOnlyDayMonthMatch2 =
+    text.match(/^(\d{1,2})+\s([^-–\d]+)\s*(?:-|–)\s*(\d{1,2})+\s([^-–\d]+)(\d{4})$/);
+  if (partialOnlyDayMonthMatch2) {
+    const [all, startDay, startMonth, endDay, endMonth, year] = partialOnlyDayMonthMatch2;
+    text =
+      `${startDay} ${startMonth}${year} - ${endDay} ${endMonth}${year}`;
+  }
+
+  const partialOnlyDayMonthMatch3 =
+    text.match(/^([^-–\d]+)\s*(\d{1,2})+\s(?:-|–)\s*([^-–\d]+)(\d{1,2})+\s(\d{4})$/);
+  if (partialOnlyDayMonthMatch3) {
+    const [all, startMonth, startDay, endMonth, endDay, year] = partialOnlyDayMonthMatch3;
+    text =
+      `${startDay} ${startMonth}${year} - ${endDay} ${endMonth}${year}`;
   }
 
   // Complete year if partial (e.g. 1930-35)
@@ -63,7 +80,7 @@ export default function preprocessText(text: string, localeData: any): string {
       shorthands.forEach((shorthand: string) => {
         const escapedShorthand = escapeStringRegexp(shorthand);
         const regexString
-            = String.raw`^(${escapedShorthand}) | (${escapedShorthand}) | (${escapedShorthand})$`;
+          = String.raw`^(${escapedShorthand}) | (${escapedShorthand}) | (${escapedShorthand})$`;
         const regex = new RegExp(regexString, 'gi');
         const containsShorthand = regex.test(text);
         if (containsShorthand) {
