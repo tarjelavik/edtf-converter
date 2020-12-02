@@ -253,7 +253,7 @@ export class Converter {
         return textArray.join('');
       })
       .filter((part) => !!part)
-      .join(` ${separator} `);
+      .join( separator === '–' ? `${separator}` : ` ${separator} `);
   }
 
   /**
