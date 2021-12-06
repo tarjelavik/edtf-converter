@@ -1,0 +1,20 @@
+{
+  "$schema": "./schema.json",
+  "locale": "nb",
+  "dateFormats": ["DD/MM/YYYY", "MM/YYYY", "YYYY", "YYYY-MM", "YYYY-MM-DD",  "Do MMM YYYY", "D MMMM YYYY", "D MMM YYYY", "Do MMMM YYYY", "MMM YYYY", "MMMM YYYY"],
+  "keywords": {
+    "approximate": ["c.", "ca.", "ca", "circa", "omtrent", "omkring"],
+    "uncertain": ["kanskje", "muligens", "?"],
+    "interval": {
+      "delimiters": ["til"],
+      "openStart": ["før"],
+      "openEnd": ["eller etter", "etter", "fra", "siden"]
+    }
+  },
+  "seasons": [
+    ["vår", "våren"],
+    ["sommer", "sommeren"],
+    ["høst", "høsten"],
+    ["vinter", "vinteren"]
+  ]
+}
